@@ -15,6 +15,7 @@ endif
 ifeq ($(CONFIG_CPU_FREQ_GOV_CONSERVATIVE_ATLAS),y)
 obj-$(CONFIG_CPU_FREQ_GOV_CONSERVATIVE)	+= atlas/cpufreq_conservative.o
 endif 
+obj-$(CONFIG_CPU_FREQ_GOV_INTERACTIVE)	+= cpufreq_interactive.o
 
 # CPUfreq cross-arch helpers
 obj-$(CONFIG_CPU_FREQ_TABLE)		+= freq_table.o
