@@ -80,21 +80,23 @@ extern int store_up_down_threshold(unsigned int down_threshold_value,
 
 /* frequency */
 static struct cpufreq_frequency_table s5pc110_freq_table_1GHZ[] = {
-	{L0, 1000*1000},
-	{L1, 800*1000},
-	{L2, 400*1000},
-	{L3, 200*1000},
-	{L4, 100*1000},
+	{L0, 1200*1000}, //added 1200 step to table to match 1d2GHZ table below
+	{L1, 1000*1000},
+	{L2, 800*1000},
+	{L3, 400*1000},
+	{L4, 200*1000},
+	{L5, 100*1000},
 	{0, CPUFREQ_TABLE_END},
 };
 
 /*Assigning different index for fast scaling up*/
 static unsigned char transition_state_1GHZ[][2] = {
-        {1, 0},
+        {1, 0}, //added index to table to match 1d2GHZ table below
         {2, 0},
         {3, 1},
         {4, 2},
-        {4, 3},
+        {5, 3},
+        {5, 4},
 };
 
 /* frequency */
@@ -130,6 +132,7 @@ static struct cpufreq_frequency_table *s5pc110_freq_table[] = {
 };
 
 static unsigned int s5pc110_thres_table_1GHZ[][2] = {
+      	{55, 80}, //added this entry (best guess until i figure out what exactly this is)
       	{55, 80},
         {50, 90},
         {50, 90},
