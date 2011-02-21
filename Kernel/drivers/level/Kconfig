@@ -1,0 +1,6 @@
+config LEVEL_VICTORY
+	bool "level support for victory"
+	default n 
+	help
+         Select for level device support
+

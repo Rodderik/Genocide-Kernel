@@ -1,0 +1,16 @@
+menuconfig SENSOR
+	bool "Sensors Support"
+	help
+	  Say Y to enable Sensors support.  This allows control of supported
+	  Sensors.
+if SENSOR
+
+source "drivers/sensor/accel/Kconfig"
+
+source "drivers/sensor/compass/Kconfig"
+
+source "drivers/sensor/optical/Kconfig"
+if S5PV210_GARNETT_DELTA
+source "drivers/sensor/ags04/Kconfig"
+endif
+endif # SENSOR

@@ -1,0 +1,2 @@
+1 - max8893.h file is not present in Froyo, Copying the file from Victory.
+2 - Make changes in the make file.

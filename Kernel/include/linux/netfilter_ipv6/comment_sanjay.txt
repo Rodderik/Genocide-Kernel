@@ -1,0 +1,3 @@
+
+1 - ip6t_mark.h file is not present in Froyo, Copying the file from Victory.
+2 - make corresponding changes in the Makefile.

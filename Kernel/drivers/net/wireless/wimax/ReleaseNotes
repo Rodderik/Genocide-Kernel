@@ -1,0 +1,63 @@
+FOR LINUX_2.6.27_CHANGES
+===============================
+
+15/05/09
+wibro_SDIO.c
+	- using swibro char device in /dev.
+	- Added max_blksize = 512 because HC code changed in latest kernel.
+	- remove proc entry change for the crash problem.
+
+21/05/09
+	- Adding the multiple application implementation.
+
+15/06/09
+	- changing the multiple application handling from windows.
+	- Buffer queue method change, adding new functions.
+
+17/06/09
+	- Added HARDWARE_USE_ALIGN_HEADER
+	- bug fixing for mac response and appln interface
+	- Makefile changes for the char device creation.
+	- changed the delete process and delete buffer queue function for pointer change.
+
+19/06/09
+	- Free the queue after the successive transfer. Resend if fail. For Idle problem
+
+22/06/09
+	- Multiple mac request for selective suspend mode (after reboot)
+	- QLimit check during tx and rx.
+
+24/06/09
+	- hwInit and hwRemove function changes.
+
+26/06/09	
+	- Added bHaltpending condition in Adapter_open 
+
+
+================================== ANDROID CHANGES ===================
+
+30/06/09
+	- hwstart in probe for f/w download and mac address processing.
+	- f/w download code porting, compiled.
+	
+4/07/09
+	- Wakeup code during Tx packets.
+	- bFWDNEndFlag set during wake_up_interruptible
+
+
+	- NEED TO ADD HWSETINTERFACE FUNCTION ***************
+
+27/07/09
+	- Delay in the probe function after poweron device for the cmd5 response. 
+
+04/08/09
+	- mac address bit changed for ifconfig interface.
+	- Wakeup using GPIO control.
+	- Multiple packet handling
+
+
+05/08/09
+	- multiple application handling.
+
+06/08/09
+	- application interface for EEPROM interface

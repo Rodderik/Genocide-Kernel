@@ -1,0 +1,4 @@
+
+1 - ipt_connmark.h file is not present in Froyo, Copying the file from Victory.
+2 - ipt_tos.h file is not present in Froyo, Copying the file from Victory.
+3 - make corresponding changes in the Makefile.

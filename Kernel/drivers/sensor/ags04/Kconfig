@@ -1,0 +1,8 @@
+config GRIP_SENSOR_AGS04
+	
+	tristate "Grip sensor support"
+	default m
+	help 
+		This option enables grip sensor support 
+	
+		

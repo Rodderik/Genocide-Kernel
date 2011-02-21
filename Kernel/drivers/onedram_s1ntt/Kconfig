@@ -1,0 +1,73 @@
+#
+# OneDRAM configuration
+#
+menuconfig SAMSUNG_PHONE_TTY
+	tristate "Samsung Phone Interface - TTY"
+	default m
+	---help---
+	  By default, n
+	  When in doubt, say N.
+
+if SAMSUNG_PHONE_TTY
+
+choice
+	prompt "Phone image read by file"
+	depends on SAMSUNG_PHONE_TTY
+	default ONEDRAM_READ_FILE
+	help
+		Select the desired split between kernel and user memory.
+
+		If you are not absolutely sure what you are doing, leave this
+		option alone!
+
+	config ONEDRAM_READ_FILE
+		bool "READ BY FILE"
+	config ONEDRAM_READ_FSR
+		bool "READ BY FSR"
+endchoice
+
+config ONEDRAM_DGSINFO
+	bool "Load DGS Info By OneDRAM"
+	depends on SAMSUNG_PHONE_TTY
+	default y
+	help
+		Load DGS Info By OneDRAM
+
+config ONEDRAM_HWREV
+	bool "HW REV on OneDRAM"
+	depends on SAMSUNG_PHONE_TTY
+	default y
+	help
+		HW Revision
+
+
+config ONEDRAM_TX_RETRY
+	int "tx retry when fail"
+	range 1 100
+	default 10
+	help
+		TX retry count
+		
+config ONEDRAM_CHECKBIT
+	bool "Using checkbit"
+	depends on SAMSUNG_PHONE_TTY
+	default n
+	help
+		Using check bit
+
+config ONEDRAM_IRQPENDING
+	bool "IRQ Pending"
+	depends on SAMSUNG_PHONE_TTY
+	default n
+	help
+		Interrupt IRQ Pending
+
+
+config ONEDRAM_IRQ_PENDING
+	bool "Using IRQ Pending"
+	depends on SAMSUNG_PHONE_TTY
+	default n
+	help
+		IRQ Pending
+
+endif # SAMSUNG_PHONE_TTY

@@ -1,0 +1,74 @@
+#
+# S3C Video configuration
+#
+
+config FB_S3C
+	tristate "S3C Framebuffer support (MIPI interface) "
+	select FB_CFB_FILLRECT
+	select FB_CFB_COPYAREA
+	select FB_CFB_IMAGEBLIT
+	select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY
+	depends on FB && ARCH_S5PV210
+	default n
+	---help---
+	  This enables support for Samsung Display Controller (FIMD)
+
+config VIDEO_SAMSUNG_MEMSIZE_FIMD
+	int "Memory size in kbytes for FIMD"
+	depends on FB_S3C
+	default "3720"
+
+config VIDEO_FB_PHY_ADDR
+	hex "Frame buffer address used by bootloader"
+	default 0x4F800000
+	depends on S5PV210_GARNETT_DELTA
+	---help---
+		In case you do not want to use FB address in kernel same as bootloader
+	        then pass 0.(0x4F800000 is used in bootloader for Garnett)
+
+config FB_S3C_DEBUG
+        bool "S3C Framebuffer debug messages"
+        depends on FB_S3C
+
+config FB_S3C_TRACE_UNDERRUN
+	bool "S3C Framebuffer FIFO underrun trace"
+	depends on FB_S3C
+
+config FB_S3C_DEFAULT_WINDOW
+	int "Default Window (0-4)"
+	depends on FB_S3C
+	default "1"
+	---help---
+	  This indicates the default window number, and which is used as console framebuffer
+
+config FB_S3C_YPANSTEP
+	int "Vertical Panning Step (0-2)"
+	depends on FB_S3C
+	default "1"
+	---help---
+	  This indicates the number of vertical steps for pan display, 0 means no pan display and
+	  1 means the double size of video buffer will be allocated for default window
+
+choice
+depends on FB_S3C
+prompt "Select LCD Type"
+default FB_S3C_LTE480WV
+config FB_S3C_LTE480WV
+	bool "LTE480WV"
+	depends on MACH_SMDKC100 || MACH_SMDK6442
+	---help---
+	  This enables support for Samsung LTE480WV 4.8\" WVGA LCD panel
+
+config FB_S3C_MIPI_LCD
+	bool "MIPI LCD"
+	depends on (MACH_SMDKC110 || MACH_S5PC110_ARIES)
+	---help---
+	  This enables support for Samsung MIPI LCD
+
+config FB_S3C_LVDS
+	bool "LVDS"
+	depends on FB_S3C && (ARCH_S5PV210)
+	---help---
+	  This enables support for Samsung LVDS LCD panel
+
+endchoice	
