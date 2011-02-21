@@ -9,3 +9,12 @@ Changelog:
 1.2GHz overclock
 1Ghz 25mV undervolt
 DK28 initramfs (for pre-OTA compatibility)
+
+
+TODO:
+Voodoo mods maybe
+Remove/raise framerate cap
+Tweak more voltages for better battery life
+Compile ext4 into kernel instead of using the kernel module in initramfs
+Tweak with gcc flags
+Fix quickboot/redirector (3 finger salute works for now)
