@@ -1,0 +1,11 @@
+Genocide 1.2GhzOC EB13 Kernel
+for Samsung Epic 4G
+
+http://forum.xda-developers.com/showthread.php?t=961614
+
+Changelog:
+
+0.1a:
+1.2GHz overclock
+1Ghz 25mV undervolt
+DK28 initramfs (for pre-OTA compatibility)
