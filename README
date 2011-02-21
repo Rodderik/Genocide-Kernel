@@ -3,12 +3,16 @@ for Samsung Epic 4G
 
 http://forum.xda-developers.com/showthread.php?t=961614
 
+How to compile: 
+If you do not have the toolchain then get it from codesourcery.com and install/extract.  Since I am compiling on an Ubuntu VM I use http://www.codesourcery.com/public/gnu_toolchain/arm-none-linux-gnueabi/arm-2009q3-67-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2
+Then refer to the README.txt on what you need to change.
+
 Changelog:
 
 0.1a:
 1.2GHz overclock
 1Ghz 25mV undervolt
-DK28 initramfs (for pre-OTA compatibility)
+DK28 initramfs (for pre-EB13/OTA compatibility)
 
 
 TODO:
