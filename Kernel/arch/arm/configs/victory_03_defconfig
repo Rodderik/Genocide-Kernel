@@ -34,7 +34,7 @@ CONFIG_CONSTRUCTORS=y
 #
 CONFIG_BLK_DEV_INITRD=y
 <<<<<<< HEAD
-CONFIG_INITRAMFS_SOURCE="/home/teamviper/Genocide-Kernel-EB13_2/EB13_stock_initramfs-working"
+CONFIG_INITRAMFS_SOURCE="/home/teamviper/Genocide-Kernel-EB13/EB13_stock_initramfs"
 CONFIG_INITRAMFS_ROOT_UID=1005
 CONFIG_INITRAMFS_ROOT_GID=1005
 =======
