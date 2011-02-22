@@ -1,0 +1,103 @@
+on init
+###
+# GyuTae FIX : we should not use system partition!!!!!
+#	export PATH /sbin:/bin
+
+	export PATH /sbin:/system/bin
+
+    export ANDROID_ROOT /system
+    export ANDROID_DATA /data
+    export EXTERNAL_STORAGE /sdcard
+
+	mkdir /sdcard
+	mkdir /system
+	mkdir /data
+	mkdir /cache
+	mkdir /tmp
+    mkdir /mnt 0775 root system
+    
+	mount tmpfs nodev /tmp
+    # etinum.recovery create /bin for busybox
+	mkdir /bin 0771 system system
+    
+    insmod /lib/modules/fsr.ko
+    insmod /lib/modules/fsr_stl.ko
+    insmod /lib/modules/rfs_glue.ko
+    insmod /lib/modules/rfs_fat.ko
+
+    mkdir /mnt/.lfs 0755 root root
+    insmod /lib/modules/j4fs.ko
+    mount j4fs /dev/block/stl6 /mnt/.lfs
+	insmod /lib/modules/dpram_recovery.ko
+
+
+    insmod /lib/modules/j4fs.ko
+    mount j4fs /dev/block/stl6 /mnt/.lfs
+	insmod /lib/modules/dpram_recovery.ko
+
+	insmod /lib/modules/param.ko 
+
+    mkdir /sdcard 0000 system system
+    chown system system /sdcard
+    chmod 0000 /sdcard
+
+    mkdir /data 0771 system system
+    chown system system /data
+    chmod 0771 /data
+    mkdir /cache 0770 system cache
+
+	
+    #Thomas Ryu, Cache 
+    mount rfs /dev/block/stl11 /cache nosuid nodev check=no
+    chown system cache /cache
+    chmod 0770 /cache
+
+    # This may have been created by the recovery system with odd permissions
+    chown system system /cache/recovery
+    chmod 0770 /cache/recovery
+
+    #This recovery_fota_mode
+	#mkdir /cache/recovery_fota_mode
+	#chmod 0770 /cache/recovery_fota_mode
+
+    #Garnett
+    #mount rfs /dev/block/mmcblk0p2 /data nosuid nodev check=no
+    #chown system system /data
+    #chmod 0771 /data
+
+    mount rfs /dev/block/stl10 /data nosuid nodev check=no
+    chown system system /data
+    chmod 0771 /data
+   
+  	mount rfs /dev/block/stl9 /system check=no
+
+on boot
+	#write /sys/class/sec/switch/uart_sel PDA
+	#write /sys/class/sec/switch/usb_sel PDA
+
+    ifup lo
+    hostname localhost
+    domainname localdomain
+	class_start default
+
+## Daemon processes to be run by init.
+##
+#service console /system/bin/sh
+#    console
+
+
+# adbd is controlled by the persist.service.adb.enable system property
+service adbd /sbin/adbd
+	disabled
+
+on property:persist.service.adb.enable=1
+	start adbd
+
+on property:persist.service.adb.enable=0
+	stop adbd
+
+service recovery /system/bin/recovery
+	oneshot
+
+
+#service adbd /sbin/adbd recovery
