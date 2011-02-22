@@ -15,6 +15,12 @@ Changelog:
 1Ghz 25mV undervolt
 DK28 initramfs (for pre-EB13/OTA compatibility)
 
+0.2a:
+New EB13 initramfs (no more DK28 stuff)
+-Added EXT4 Support
+-Added bootanimation support
+-Updated kernel modules from EB18
+-Added recovery (need to test redirector)
 
 TODO:
 Voodoo mods maybe
