@@ -1,0 +1,11 @@
+26c26,27
+< 
+---
+>     insmod /lib/modules/jbd2.ko
+>     insmod /lib/modules/ext4.ko
+40a42
+>     mount ext4 /dev/block/stl11 /cache nosuid nodev
+57a60
+>     mount ext4 /dev/block/stl10 /data nosuid nodev
+61a65
+>         mount ext4 /dev/block/stl9 /system
