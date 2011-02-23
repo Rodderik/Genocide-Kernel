@@ -10,11 +10,6 @@ Then refer to the README.txt on what else you need to change.
 
 Changelog:
 
-0.1a:
-1.2GHz overclock
-1Ghz 25mV undervolt
-DK28 initramfs (for pre-EB13/OTA compatibility)
-
 0.2a:
 New EB13 initramfs (no more DK28 stuff)
 -Added EXT4 Support
@@ -23,6 +18,11 @@ New EB13 initramfs (no more DK28 stuff)
 -Added recovery (need to test redirector)
 -Added Firmware version to About Phone
 Started on Voodoo mods
+
+0.1a:
+1.2GHz overclock
+1Ghz 25mV undervolt
+DK28 initramfs (for pre-EB13/OTA compatibility)
 
 TODO:
 Voodoo mods maybe
