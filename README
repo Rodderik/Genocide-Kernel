@@ -21,6 +21,8 @@ New EB13 initramfs (no more DK28 stuff)
 -Added bootanimation support
 -Updated kernel modules from EB18
 -Added recovery (need to test redirector)
+-Added Firmware version to About Phone
+Started on Voodoo mods
 
 TODO:
 Voodoo mods maybe
@@ -28,6 +30,6 @@ Remove/raise framerate cap
 Tweak more voltages for better battery life
 Compile ext4 into kernel instead of using the kernel module in initramfs
 Tweak with gcc flags
-Fix quickboot/redirector (3 finger salute works for now)
+Fix quickboot/redirector (3 finger salute works for now) RFS works fine, EXT4 gets stuck on boot logo
 
 Please leave comments and suggestions in the thread on xda-developers (or send me a private message)
