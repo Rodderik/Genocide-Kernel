@@ -10,6 +10,8 @@ Then refer to the README.txt on what else you need to change.
 
 Changelog:
 
+Compiled and added cifs.ko to initramfs
+
 0.2a:
 New EB13 initramfs (no more DK28 stuff)
 -Added EXT4 Support

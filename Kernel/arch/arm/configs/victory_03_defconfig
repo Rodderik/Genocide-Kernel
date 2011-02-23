@@ -33,7 +33,7 @@ CONFIG_CONSTRUCTORS=y
 # General setup
 #
 CONFIG_BLK_DEV_INITRD=y
-CONFIG_INITRAMFS_SOURCE="/home/teamviper/Genocide-Kernel-EB13/EB13_Genocide_initramfs"
+CONFIG_INITRAMFS_SOURCE="/home/teamviper/Genocide-Kernel-EB13_2/EB13_Genocide_initramfs"
 CONFIG_INITRAMFS_ROOT_UID=1005
 CONFIG_INITRAMFS_ROOT_GID=1005
 CONFIG_RD_GZIP=y
@@ -2102,7 +2102,7 @@ CONFIG_NETWORK_FILESYSTEMS=y
 # CONFIG_NFS_FS is not set
 # CONFIG_NFSD is not set
 # CONFIG_SMB_FS is not set
-# CONFIG_CIFS is not set
+CONFIG_CIFS=m
 # CONFIG_NCP_FS is not set
 # CONFIG_CODA_FS is not set
 # CONFIG_AFS_FS is not set
