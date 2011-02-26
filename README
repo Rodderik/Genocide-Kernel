@@ -22,7 +22,7 @@ Compiled and added cifs.ko to initramfs
 New EB13 initramfs (no more DK28 stuff)
 -Added EXT4 Support
 -Added bootanimation support
--Updated kernel modules from EB18
+-Updated kernel modules from EB13
 -Added recovery (need to test redirector)
 -Added Firmware version to About Phone
 Started on Voodoo mods
