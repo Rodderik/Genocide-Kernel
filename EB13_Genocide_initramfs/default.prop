@@ -5,4 +5,4 @@ ro.secure=1
 ro.allow.mock.location=0
 ro.debuggable=0
 persist.service.adb.enable=1
-ro.build.version.release=Genocide_Kernel_0.3a_EB13_OC/UV_Kernel 
+ro.build.version.release=Genocide_0.3a_EB13_OC/UV_Kernel
