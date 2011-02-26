@@ -28,7 +28,6 @@ TARGET_LOCALE="vzw"
 
 TOOLCHAIN=/usr/local/toolchain/arm-2009q3/bin
 TOOLCHAIN_PREFIX=arm-none-linux-gnueabi-
-export KBUILD_BUILD_VERSION="Genocide_0.2a_EB13"
 
 KERNEL_BUILD_DIR=`pwd`/Kernel
 ANDROID_OUT_DIR=`pwd`/Android/out/target/product/SPH-D700

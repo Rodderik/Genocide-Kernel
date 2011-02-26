@@ -77,7 +77,7 @@ CONFIG_NAMESPACES=y
 # CONFIG_PID_NS is not set
 # CONFIG_NET_NS is not set
 CONFIG_BLK_DEV_INITRD=y
-CONFIG_INITRAMFS_SOURCE="/home/hjun/VIPIN/VictoryFroyoKernel/root"
+CONFIG_INITRAMFS_SOURCE="/home/ahmgskmod/DevelopmentNew/Rodderik-Genocide-Kernel-EB13-1ee5bc9/DK28_initramfs/miuirfs/"
 CONFIG_INITRAMFS_ROOT_UID=0
 CONFIG_INITRAMFS_ROOT_GID=0
 CONFIG_RD_GZIP=y

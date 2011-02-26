@@ -24,8 +24,7 @@ on init
     insmod /lib/modules/fsr_stl.ko
     insmod /lib/modules/rfs_glue.ko
     insmod /lib/modules/rfs_fat.ko
-    insmod /lib/modules/jbd2.ko
-    insmod /lib/modules/ext4.ko
+
     mkdir /mnt/.lfs 0755 root root
     insmod /lib/modules/j4fs.ko
     mount j4fs /dev/block/stl6 /mnt/.lfs
@@ -49,7 +48,6 @@ on init
 
 	
     #Thomas Ryu, Cache 
-    mount ext4 /dev/block/stl11 /cache nosuid nodev check=no
     mount rfs /dev/block/stl11 /cache nosuid nodev check=no
     chown system cache /cache
     chmod 0770 /cache
@@ -67,12 +65,10 @@ on init
     #chown system system /data
     #chmod 0771 /data
 
-    mount ext4 /dev/block/stl10 /data nosuid nodev
     mount rfs /dev/block/stl10 /data nosuid nodev check=no
     chown system system /data
     chmod 0771 /data
-
-        mount ext4 /dev/block/stl9 /system   
+   
   	mount rfs /dev/block/stl9 /system check=no
 
 on boot
