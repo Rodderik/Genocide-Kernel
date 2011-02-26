@@ -10,7 +10,13 @@ Then refer to the README.txt on what else you need to change.
 
 Changelog:
 
+0.3a:
+Set defaults speeds to 200MHz min and 1000MHz max (NOW REQUIRES SETCPU TO OVERCLOCK)
+Compiled in video lag & camera force close fix by mkasick on xda-developers
+Fixed issue with Firmware version in About Phone (FIXES PANDORA)
+Set initramfs root UID/GID
 Compiled and added cifs.ko to initramfs
+*Removed cifs from kernel (you can try the module if you want but it broke the initramfs with it in there plus it is a nasty 2.3MB)
 
 0.2a:
 New EB13 initramfs (no more DK28 stuff)
