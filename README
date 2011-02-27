@@ -9,7 +9,8 @@ Browse to Kernel/arch/arm/configs/ and edit victory_03_defconfig and change the 
 Then refer to the README.txt on what else you need to change.
 
 Changelog:
-
+Removed CONFIG_DEBUG_INFO=y (give us smaller kernel image and modules including new cifs.ko)
+CFLAGS_KERNEL	= -O2 -pipe -mcpu=cortex-a8 -mtune=cortex-a8 -mfloat-abi=soft -mfpu=neon
 *Removed About Phone information (Caused FC and weird bugs in apps)
 Fixed error that wouldn't let cpu drop below 200MHz
 
