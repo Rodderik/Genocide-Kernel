@@ -10,6 +10,10 @@ Then refer to the README.txt on what else you need to change.
 
 Changelog:
 
+*Removed About Phone information (Caused FC and weird bugs in apps)
+Fixed error that wouldn't let cpu drop below 200MHz
+
+
 0.3a:
 Set defaults speeds to 200MHz min and 1000MHz max (NOW REQUIRES SETCPU TO OVERCLOCK)
 Compiled in video lag & camera force close fix by mkasick on xda-developers

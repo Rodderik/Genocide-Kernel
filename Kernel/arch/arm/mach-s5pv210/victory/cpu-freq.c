@@ -46,8 +46,8 @@
 unsigned int dvfs_change_direction;
 #define CLIP_LEVEL(a, b) (a > b ? b : a)
 
-unsigned int MAXFREQ_LEVEL_SUPPORTED = 4;
-unsigned int S5PC11X_MAXFREQLEVEL = 4;
+unsigned int MAXFREQ_LEVEL_SUPPORTED = 6;
+unsigned int S5PC11X_MAXFREQLEVEL = 6;
 unsigned int S5PC11X_FREQ_TAB;
 static spinlock_t g_dvfslock = SPIN_LOCK_UNLOCKED;
 static unsigned int s5pc11x_cpufreq_level = 3;
@@ -717,9 +717,9 @@ static int __init s5pc110_cpu_init(struct cpufreq_policy *policy)
 		g_dvfs_high_lock_limit = 5;
 #else
 		S5PC11X_FREQ_TAB = 0;
-		S5PC11X_MAXFREQLEVEL = 4;
-		MAXFREQ_LEVEL_SUPPORTED = 5;
-		g_dvfs_high_lock_limit = 4;
+		S5PC11X_MAXFREQLEVEL = 5;
+		MAXFREQ_LEVEL_SUPPORTED = 6;
+		g_dvfs_high_lock_limit = 5;
 #endif
 	
 	printk("S5PC11X_FREQ_TAB=%d , S5PC11X_MAXFREQLEVEL=%d\n",S5PC11X_FREQ_TAB,S5PC11X_MAXFREQLEVEL);
