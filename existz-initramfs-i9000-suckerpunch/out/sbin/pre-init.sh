@@ -8,7 +8,7 @@
 # Duplicated from init.rc
 # setup the global environment
     export PATH=/sbin:/system/sbin:/system/bin:/system/xbin
-    export LD_LIBRARY_PATH=/system/lib
+    export LD_LIBRARY_PATH=/system/lib:/system/lib/egl
     export ANDROID_BOOTLOGO=1
     export ANDROID_ROOT=/system
     export ANDROID_ASSETS=/system/app
@@ -31,7 +31,7 @@
     /sbin/busybox insmod /lib/modules/vibrator.ko
 
 	# ko files for Fm radio
-	/sbin/busybox insmod /lib/modules/Si4709_driver.ko
+	#/sbin/busybox insmod /lib/modules/Si4709_driver.ko
 
 # Backward compatibility
     /sbin/busybox ln -s /system/etc /etc
@@ -39,7 +39,7 @@
 
 # create mountpoints
     /sbin/busybox mkdir /mnt; /sbin/busybox chmod 0775 /mnt; /sbin/busybox chown root.system /mnt;
-    #/sbin/busybox mkdir /mnt/sdcard; /sbin/busybox chmod 0000 /mnt/sdcard; /sbin/busybox chown system.system /mnt/sdcard;
+    /sbin/busybox mkdir /mnt/sdcard; /sbin/busybox chmod 0000 /mnt/sdcard; /sbin/busybox chown system.system /mnt/sdcard;
 
 # Create cgroup mount point for cpu accounting
     /sbin/busybox mkdir /acct
@@ -69,8 +69,8 @@
 /sbin/busybox mount -t proc proc /proc
 /sbin/busybox mount -t sysfs sys /sys
 
-/sbin/busybox mkdir /tmp
-/sbin/busybox mount -t tmpfs tmpfs /tmp
+#/sbin/busybox mkdir /tmp
+#/sbin/busybox mount -t tmpfs tmpfs /tmp
 
 /sbin/busybox mkdir /dev/block
 /sbin/busybox mkdir /dev/snd
@@ -129,7 +129,7 @@
     /sbin/busybox insmod /lib/modules/param.ko
 
 # Backwards Compat - XXX: Going away in G*
-    #/sbin/busybox ln -s /mnt/sdcard /sdcard
+    /sbin/busybox ln -s /mnt/sdcard /sdcard
 
     /sbin/busybox mkdir /system
     /sbin/busybox mkdir /data; /sbin/busybox chmod 0771 /data; /sbin/busybox chown system.system /data;
@@ -138,18 +138,18 @@
     /sbin/busybox mkdir /config; /sbin/busybox chmod 0500 /config; /sbin/busybox chown root.root /config;
 
     # Directory for putting things only root should see.
-    #/sbin/busybox mkdir /mnt/secure; /sbin/busybox chmod 0700 /mnt/secure; /sbin/busybox chown root.root /mnt/secure;
+    /sbin/busybox mkdir /mnt/secure; /sbin/busybox chmod 0700 /mnt/secure; /sbin/busybox chown root.root /mnt/secure;
 
     # Directory for staging bindmounts
-    #/sbin/busybox mkdir /mnt/secure/staging; /sbin/busybox chmod 0700 /mnt/secure/staging; /sbin/busybox chown root.root /mnt/secure/staging;
+    /sbin/busybox mkdir /mnt/secure/staging; /sbin/busybox chmod 0700 /mnt/secure/staging; /sbin/busybox chown root.root /mnt/secure/staging;
 
     # Directory-target for where the secure container
     # imagefile directory will be bind-mounted
-    #/sbin/busybox mkdir /mnt/secure/asec; /sbin/busybox chmod 0700 /mnt/secure/asec; /sbin/busybox chown root.root /mnt/secure/asec;
+    # /sbin/busybox mkdir /mnt/secure/asec; /sbin/busybox chmod 0700 /mnt/secure/asec; /sbin/busybox chown root.root /mnt/secure/asec;
 
     # Secure container public mount points.
-    #/sbin/busybox mkdir /mnt/asec; /sbin/busybox chmod 0700 /mnt/asec; /sbin/busybox chown root.system /mnt/asec;
-    #/sbin/busybox mount -t tmpfs -o mode=0755,gid=1000 tmpfs /mnt/asec
+    /sbin/busybox mkdir /mnt/asec; /sbin/busybox chmod 0700 /mnt/asec; /sbin/busybox chown root.system /mnt/asec;
+    /sbin/busybox mount -t tmpfs -o mode=0755,gid=1000 tmpfs /mnt/asec
 
     /sbin/busybox mkdir /dbdata
     /sbin/busybox chown system.system /dbdata
@@ -323,8 +323,8 @@
 /sbin/busybox ln -s /sbin/busybox /sbin/yes
 /sbin/busybox ln -s /sbin/busybox /sbin/zcat
 
-#PATH=/sbin:/system/sbin:/system/bin:/system/xbin
-#export PATH
+PATH=/sbin:/system/sbin:/system/bin:/system/xbin
+export PATH
 
 # umount everything to be sure
 echo Unmounting filesystems
@@ -364,47 +364,12 @@ SYSTEM_FS_TYPE=rfs
 if /sbin/busybox [ -z "`/sbin/busybox mount | /sbin/busybox grep /dev/block/stl9 | /sbin/busybox grep rfs`" ]; then
   /sbin/fsck.ext4 -f -p /dev/block/stl9
   /sbin/busybox mount -t ext4 -o noatime,data=ordered,nodelalloc,commit=20 /dev/block/stl9 /system
-  if /sbin/busybox [ "`/sbin/busybox mount | /sbin/busybox grep /dev/block/stl9 | /sbin/busybox grep ext4`" ]; then  
-	SYSTEM_FS_TYPE=ext4
-  else
-	SYSTEM_FS_TYPE=error
-  fi
+  SYSTEM_FS_TYPE=ext4
 fi
-echo SYSTEM_FS_TYPE=$SYSTEM_FS_TYPE
-
-# fsck the internal sdcard first in case any lagfixing is needed
-/system/bin/fsck_msdos -y /dev/block/mmcblk0p1
+if [ -f /system/bin/fat.format ]; then /sbin/busybox rm /system/bin/fat.format; fi
 
 #/sbin/busybox ln -s /system/etc /etc
 cp /res/misc/mke2fs.conf /etc
-
-if /sbin/busybox [ -f "/system/etc/lagfixsystem.conf" ]; then
-	echo Going to convert /system
-	rm -f /system/etc/lagfixsystem.conf
-
-  /sbin/busybox ln -s /sbin/recovery /sbin/lagfixer
-  /sbin/busybox ln -s /sbin/recovery /sbin/graphchoice
-  /sbin/busybox ln -s /sbin/recovery /sbin/reboot
-  
-  echo "Starting choice app"
-  /sbin/graphchoice "SYSTEM conversion requested. Convert /system?" "EXT4: Convert to EXT4" "RFS: Convert to RFS" "NO: Abort conversion"
-  SYSRESULT=$?
-  if /sbin/busybox [ $SYSRESULT == "0" ]; then
-	SYSLFOPTS=sysext4
-  elif /sbin/busybox [ $SYSRESULT == "1" ]; then
-    SYSLFOPTS=sysrfs
-  fi
-  if /sbin/busybox [ $SYSRESULT != "2" ]; then
-    /sbin/lagfixer $SYSLFOPTS > /res/lagfix.log 2>&1
-    /sbin/busybox sleep 5
-    # only reboot if we're not in recovery mode for debug purposes
-    if /sbin/busybox [ -z "`/sbin/busybox grep 'bootmode=2' /proc/cmdline`" ]; then
-      /sbin/busybox cp /res/pre-init.log /sdcard/
-      /sbin/busybox cp /res/lagfix.log /sdcard/
-    fi
-  fi
-  /sbin/reboot -f
-fi
 
 DATA_FS_TYPE=rfs
 CACHE_FS_TYPE=rfs
@@ -562,9 +527,25 @@ mount_loop() {
 	elif /sbin/busybox [ $FSTYPE == "ext2" ]; then
 	  /sbin/busybox mount -t ext2 -o noatime $1 $2
 	elif /sbin/busybox [ $FSTYPE == "ext3" ]; then
-	  /sbin/busybox mount -t ext3 -o noatime,data=ordered $1 $2
+#		if /sbin/busybox [ -f /system/etc/ext4mountops.conf ]; then
+#			if /sbin/busybox [ "`grep 1 /system/etc/ext4mountops.conf`" ]; then
+				/sbin/busybox mount -t ext3 -o noatime,data=ordered $1 $2
+#			fi
+#		else
+#				/sbin/busybox mount -t ext3 -o noatime,commit=20 $1 $2
+#		fi
 	elif /sbin/busybox [ $FSTYPE == "ext4" ]; then
-	  /sbin/busybox mount -t ext4 -o noatime,nodelalloc,data=ordered $1 $2
+#		if /sbin/busybox [ -f /system/etc/ext4mountops.conf ]; then
+#			if /sbin/busybox [ "`grep 1 /system/etc/ext4mountops.conf`" ]; then
+				/sbin/busybox mount -t ext4 -o noatime,nodelalloc,data=ordered $1 $2
+#			fi
+#		else
+#			if /sbin/busybox [ $6 == "ext4nj" ]; then
+#				/sbin/busybox mount -t ext4 -o noatime,data=writeback,nobh,noauto_da_alloc,commit=20,barrier=0 $1 $2
+#			else
+#				/sbin/busybox mount -t ext4 -o noatime,data=ordered,commit=20,barrier=0 $1 $2
+#			fi
+#		fi
 	elif /sbin/busybox [ $FSTYPE == "jfs" ]; then
 	  /sbin/busybox mount -t jfs -o noatime,errors=continue $1 $2
 	else
@@ -609,24 +590,24 @@ final_mount() {
       if /sbin/busybox [ $FSTYPE == "ext2" ]; then
         /sbin/busybox mount -t ext2 -o noatime $1 $3
       elif /sbin/busybox [ $FSTYPE == "ext3" ]; then
-		/sbin/busybox mount -t ext3 -o noatime,data=ordered,commit=20 $1 $3
-	  elif /sbin/busybox [ $FSTYPE == "ext4" ]; then	  
-		if [ $1 == "/dev/block/mmcblk0p2" ]; then
-			if /sbin/busybox [ -f /system/etc/ext4mountopts.conf ]; then
-				if /sbin/busybox [ "`grep 1 /system/etc/ext4mountopts.conf`" ]; then
-					echo Ext4 mount option: FASTER for $1
-					/sbin/busybox mount -t ext4 -o noatime,noauto_da_alloc,data=ordered,commit=20 $1 $3
-				else
-					echo Ext4 mount option: SAFER for $1
-					/sbin/busybox mount -t ext4 -o noatime,nodelalloc,data=ordered,commit=20 $1 $3
-				fi
-			else
-				echo Ext4 mount option: SAFER for $1
-				/sbin/busybox mount -t ext4 -o noatime,nodelalloc,data=ordered,commit=20 $1 $3
+		if /sbin/busybox [ -f /system/etc/ext4mountops.conf ]; then
+			if /sbin/busybox [ "`grep 1 /system/etc/ext4mountops.conf`" ]; then
+				/sbin/busybox mount -t ext3 -o noatime,data=ordered $1 $3
 			fi
 		else
-			echo Ext4 mount option: SAFER for $1
-			/sbin/busybox mount -t ext4 -o noatime,nodelalloc,data=ordered,commit=20 $1 $3
+				/sbin/busybox mount -t ext3 -o noatime,data=ordered,commit=20 $1 $3
+		fi
+	  elif /sbin/busybox [ $FSTYPE == "ext4" ]; then
+		if /sbin/busybox [ -f /system/etc/ext4mountops.conf ]; then
+			if /sbin/busybox [ "`grep 1 /system/etc/ext4mountops.conf`" ]; then
+				/sbin/busybox mount -t ext4 -o noatime,nodelalloc,data=ordered $1 $3
+			fi
+		else
+			if /sbin/busybox [ $5 == "ext4nj" ]; then
+				/sbin/busybox mount -t ext4 -o noatime,nodelalloc,data=ordered $1 $3
+			else
+				/sbin/busybox mount -t ext4 -o noatime,nodelalloc,data=ordered,commit=20 $1 $3
+			fi
 		fi
       else
         /sbin/busybox mount -t jfs -o noatime,errors=continue $1 $3
@@ -644,7 +625,7 @@ if /sbin/busybox [ "`/sbin/busybox diff /system/etc/lagfix.conf /system/etc/lagf
   /sbin/busybox ln -s /mnt/sdcard /sdcard
   /sbin/busybox ln -s /sbin/recovery /sbin/reboot
   echo "Starting choice app"
-  /sbin/graphchoice "New filesystem config detected. Convert?" "YES" "Yes, with factory reset after backup" "Yes, with factory reset without backup" "No, enter recovery mode" "NO, remove the new config"
+  /sbin/graphchoice "Configs differ. Continue with conversion?" "Yes, with backup and restore" "Yes, with factory reset after backup" "Yes, with factory reset without backup" "No, enter recovery mode" "No, remove the new config"
   RESULT=$?
   echo "Choice was: $RESULT"
   LFOPTS="br"
@@ -669,7 +650,7 @@ if /sbin/busybox [ "`/sbin/busybox diff /system/etc/lagfix.conf /system/etc/lagf
     if /sbin/busybox [ $RESULT == "4" ]; then
       rm /system/etc/lagfix.conf
       rm /system/etc/lagfix.conf.old
-      /sbin/reboot -f
+      /sbin/reboot recovery
     fi
     if /sbin/busybox [ -z "`/sbin/busybox grep 'bootmode=2' /proc/cmdline`" ]; then
       /sbin/recovery
@@ -693,13 +674,13 @@ else
 
   # mount loop devices
   if /sbin/busybox [ $DATA_LOOP == "ext2" ]; then
-    mount_loop /dev/block/mmcblk0p2 /res/odata /dev/block/loop1 /data 1831632896 $DATA_FS_TYPE #1831634944 
+    mount_loop /dev/block/mmcblk0p2 /res/odata /dev/block/loop1 /data 1831634944 $DATA_FS_TYPE
   fi
   if /sbin/busybox [ $DBDATA_LOOP == "ext2" ]; then
-    mount_loop /dev/block/stl10 /res/odbdata /dev/block/loop2 /dbdata 104857600 $DBDATA_FS_TYPE #128382976
+    mount_loop /dev/block/stl10 /res/odbdata /dev/block/loop2 /dbdata 128382976 $DBDATA_FS_TYPE
   fi
   if /sbin/busybox [ $CACHE_LOOP == "ext2" ]; then
-    mount_loop /dev/block/stl11 /res/ocache /dev/block/loop3 /cache 29720576 $CACHE_FS_TYPE #29726720
+    mount_loop /dev/block/stl11 /res/ocache /dev/block/loop3 /cache 29726720 $CACHE_FS_TYPE
   fi
 
   final_mount /dev/block/mmcblk0p2 /dev/block/loop1 /data /res/odata $DATA_FS_TYPE $DATA_LOOP
@@ -715,23 +696,7 @@ else
   fi
 fi
 
-if [ -f /system/bin/fat.format ]; then /sbin/busybox rm /system/bin/fat.format; fi
-
-# Screen color settings
-if /sbin/busybox [ "`grep COLD_COLOR /system/etc/speedmodcolor.conf`" ]; then
-  echo 1 > /sys/devices/virtual/misc/speedmodk_mdnie/color_temp
-fi
-
-if /sbin/busybox [ "`grep WARM_COLOR /system/etc/speedmodcolor.conf`" ]; then
-  echo 2 > /sys/devices/virtual/misc/speedmodk_mdnie/color_temp
-fi
-
-# Auto brightness settings
-if /sbin/busybox [ "`grep AUTOBRIGHTNESS_NO_DARKEST /system/etc/speedmodcolor.conf`" ]; then
-  echo 0 > /sys/devices/virtual/misc/speedmodk_gp2a/auto_min_dark
-fi
-
-# Bootanimation sound tweak
-if /sbin/busybox [ "`grep BOOTANIMATIONSOUND /system/etc/tweaks.conf`" ]; then
-  setprop audioflinger.bootsnd 1
-fi
+# fsck the internal sdcard
+/system/bin/fsck_msdos -y /dev/block/mmcblk0p1
+# fsck the external sdcard
+/system/bin/fsck_msdos -y /dev/block/mmcblk1p1

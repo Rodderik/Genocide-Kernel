@@ -12,12 +12,14 @@ on init
 	insmod /lib/modules/fsr_stl.ko
 	insmod /lib/modules/rfs_glue.ko
 	insmod /lib/modules/rfs_fat.ko
- 
+        insmod /lib/modules/jbd2.ko
+        insmod /lib/modules/ext4.ko 
 	insmod /lib/modules/param.ko 
 	insmod /lib/modules/vibrator.ko
  
-  #mount ext2 /dev/block/stl9 /system
-	#mount ext2 /dev/block/mmcblk0p2 /data noatime nodiratime
+        mount ext4 /dev/block/stl9 /system
+  	mount rfs /dev/block/stl9 /system check=no
+	mount rfs /dev/block/mmcblk0p2 /data nosuid nodev check=no
 
 	mkdir /data/log 0777
 	mkdir /data/anr 0777

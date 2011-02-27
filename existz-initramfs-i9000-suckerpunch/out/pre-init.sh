@@ -8,7 +8,7 @@
 # Duplicated from init.rc
 # setup the global environment
     export PATH=/sbin:/system/sbin:/system/bin:/system/xbin
-    export LD_LIBRARY_PATH=/system/lib
+    export LD_LIBRARY_PATH=/system/lib:/system/lib/egl
     export ANDROID_BOOTLOGO=1
     export ANDROID_ROOT=/system
     export ANDROID_ASSETS=/system/app
@@ -31,7 +31,7 @@
     /sbin/busybox insmod /lib/modules/vibrator.ko
 
 	# ko files for Fm radio
-	/sbin/busybox insmod /lib/modules/Si4709_driver.ko
+	#/sbin/busybox insmod /lib/modules/Si4709_driver.ko
 
 # Backward compatibility
     /sbin/busybox ln -s /system/etc /etc

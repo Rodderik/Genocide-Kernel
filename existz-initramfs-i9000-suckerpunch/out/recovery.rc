@@ -5,7 +5,11 @@ sysclktz 0
 loglevel 3
 
 # setup the global environment
-    export PATH /sbin:/system/sbin:/system/bin:/system/xbin
+###
+# GyuTae FIX : we should not use system partition!!!!!
+#	export PATH /sbin:/bin
+
+	export PATH /sbin:/system/bin
     export LD_LIBRARY_PATH /system/lib
     export ANDROID_BOOTLOGO 1
     export ANDROID_ROOT /system
@@ -122,7 +126,7 @@ loglevel 3
     #mount yaffs2 mtd@system /system ro remount
 
 # use movinand second partition as /data. d.moskvitin
-    exec apply_disk_policy
+#    exec apply_disk_policy
 
     # We chown/chmod /data again so because mount is run as root + defaults
     # mount yaffs2 mtd@userdata /data nosuid nodev
@@ -186,6 +190,10 @@ loglevel 3
     chmod 0666 /dev/log/main
     chmod 0666 /dev/log/event
 
+    # create dump camera
+    mkdir /data/dump 0777 root root
+    chmod 0777 /data/dump
+
 on boot
 # basic network init
     ifup lo
@@ -208,14 +216,14 @@ on boot
 
 # Define the memory thresholds at which the above process classes will
 # be killed.  These numbers are in pages (4k).
-    setprop ro.FOREGROUND_APP_MEM 1536
-    setprop ro.VISIBLE_APP_MEM 2048
-    setprop ro.SECONDARY_SERVER_MEM 4096
-    setprop ro.BACKUP_APP_MEM 4096
-    setprop ro.HOME_APP_MEM 4096
-    setprop ro.HIDDEN_APP_MEM 5120
-    setprop ro.CONTENT_PROVIDER_MEM 5632
-    setprop ro.EMPTY_APP_MEM 6144
+    setprop ro.FOREGROUND_APP_MEM 2560
+    setprop ro.VISIBLE_APP_MEM 4096
+    setprop ro.SECONDARY_SERVER_MEM 6144
+    setprop ro.BACKUP_APP_MEM 6144
+    setprop ro.HOME_APP_MEM 6144
+    setprop ro.HIDDEN_APP_MEM 10240
+    setprop ro.CONTENT_PROVIDER_MEM 11264
+    setprop ro.EMPTY_APP_MEM 12288
 
 	setprop wifi.interface "eth0"
 	setprop ro.bt.bdaddr_path "/data/misc/bluetooth/bt_addr"
@@ -227,7 +235,7 @@ on boot
 
     write /proc/sys/vm/overcommit_memory 1
     write /proc/sys/vm/min_free_order_shift 4
-    write /sys/module/lowmemorykiller/parameters/minfree 1536,2048,4096,5120,5632,6144
+    write /sys/module/lowmemorykiller/parameters/minfree 2560,4096,6144,10240,11264,12288
 
     # Set init its forked children's oom_adj.
     write /proc/1/oom_adj -16
@@ -235,6 +243,10 @@ on boot
     # Tweak background writeout
     write /proc/sys/vm/dirty_expire_centisecs 200
     write /proc/sys/vm/dirty_background_ratio  5
+
+   # permissions
+
+    chmod 666 /system/usr/keychars/s3c-keypad.kcm.bin
 
     # Permissions for System Server and daemons.
     chown radio system /sys/android_power/state
@@ -245,28 +257,35 @@ on boot
     chown radio system /sys/power/state
     chown radio system /sys/power/wake_lock
     chown radio system /sys/power/wake_unlock
+chown radio system /sys/power/dvfslock_ctrl
     chmod 0660 /sys/power/state
     chmod 0660 /sys/power/wake_lock
     chmod 0660 /sys/power/wake_unlock
+chmod 0660 /sys/power/dvfslock_ctrl
     chown system system /sys/class/timed_output/vibrator/enable
+    chmod 0777 /sys/class/timed_output/vibrator/enable
     chown system system /sys/class/leds/keyboard-backlight/brightness
-#    chown system system /sys/class/leds/lcd-backlight/brightness
-    chown system system /sys/class/backlight/s5p_bl/brightness
+    chown system system /sys/class/leds/lcd-backlight/brightness
     chown system system /sys/class/leds/button-backlight/brightness
     chown system system /sys/class/leds/jogball-backlight/brightness
     chown system system /sys/class/leds/red/brightness
-    chown system system /sys/class/leds/green/brightness
+# chown system system /sys/class/leds/green/brightness
     chown system system /sys/class/leds/blue/brightness
-    chown system system /sys/class/leds/red/device/grpfreq
-    chown system system /sys/class/leds/red/device/grppwm
-    chown system system /sys/class/leds/red/device/blink
-    chown system system /sys/class/leds/red/brightness
-    chown system system /sys/class/leds/green/brightness
-    chown system system /sys/class/leds/blue/brightness
-    chown system system /sys/class/leds/red/device/grpfreq
-    chown system system /sys/class/leds/red/device/grppwm
-    chown system system /sys/class/leds/red/device/blink
-    chown system system /sys/class/timed_output/vibrator/enable
+    chown system system /sys/class/leds/red/trigger
+    chown system system /sys/class/leds/blue/trigger
+    chown system system /sys/class/leds/red/delay_on
+    chown system system /sys/class/leds/red/delay_off
+    chown system system /sys/class/leds/blue/delay_on
+    chown system system /sys/class/leds/blue/delay_off
+# chown system system /sys/class/leds/red/device/grpfreq
+# chown system system /sys/class/leds/red/device/grppwm
+# chown system system /sys/class/leds/red/device/blink
+# chown system system /sys/class/leds/red/brightness
+# chown system system /sys/class/leds/green/brightness
+# chown system system /sys/class/leds/blue/brightness
+# chown system system /sys/class/leds/red/device/grpfreq
+# chown system system /sys/class/leds/red/device/grppwm
+# chown system system /sys/class/leds/red/device/blink
     chown system system /sys/module/sco/parameters/disable_esco
     chown system system /sys/kernel/ipv4/tcp_wmem_min
     chown system system /sys/kernel/ipv4/tcp_wmem_def
@@ -275,24 +294,50 @@ on boot
     chown system system /sys/kernel/ipv4/tcp_rmem_def
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown root radio /proc/cmdline
+    chown system system /sys/devices/platform/s3c-keypad/key_pressed
+    chmod 0777 /sys/devices/platform/s3c-keypad/key_pressed
+
+# FOTA
+    chmod 0777 /system/etc/install-recovery.sh
+
+# for Sensor HAL
+
+    chown system system /dev/accelerometer
+    chown compass system /dev/accel
+    chown compass system /dev/compass
+    chown system system /dev/akm8973_daemon
+    chown system system /dev/akm8973_aot
+# chown system system /dev/bma020
+# chown system system /dev/proximity
+    chown system system /dev/light
+# chmod 0777 /dev/accelerometer
+    chmod 0777 /dev/akm8973_daemon
+    chmod 0777 /dev/akm8973_aot
+# chmod 0777 /dev/bma020
+# chmod 0777 /dev/proximity
+# chmod 0660 /dev/light
 
 #magnetic sensor yamaha
-    chown compass system /dev/i2c-12
-    chmod 0777 /dev/i2c-12
-    chown compass system /dev/i2c-5
-    chmod 0777 /dev/yamaha_compass
-    chown system system /dev/light
-    chmod 0777 /dev/light
-    chown system system /dev/proximity
-    chmod 0777 /dev/proximity
+# chown compass system /dev/i2c-12
+# chown compass system /dev/i2c-5
+    
+# chown system system /dev/bma020
+    chmod 0777 /dev/akm8973_daemon
+    chmod 0777 /dev/akm8973_aot
+# chmod 0777 /dev/bma020
+
+# for wimax
+    chown system system /dev/swmxctl
+    chown system system /dev/uwibro
 
 # Define TCP buffer sizes for various networks
-#   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
+# ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
     setprop net.tcp.buffersize.default 4096,87380,110208,4096,16384,110208
-    setprop net.tcp.buffersize.wifi    4095,87380,110208,4096,16384,110208
-    setprop net.tcp.buffersize.umts    4094,87380,110208,4096,16384,110208
-    setprop net.tcp.buffersize.edge    4093,26280,35040,4096,16384,35040
-    setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
+    setprop net.tcp.buffersize.wifi 4095,65535,196608,4096,16384,110208
+    setprop net.tcp.buffersize.umts 4094,87380,110208,4096,16384,110208
+    setprop net.tcp.buffersize.edge 4093,26280,35040,4096,16384,35040
+    setprop net.tcp.buffersize.gprs 4092,8760,11680,4096,8760,11680
+    setprop net.tcp.buffersize.wimax 4092,87380,1520768,4092,16384,1520768
 
 
 # Audio Tunning Files
@@ -306,6 +351,9 @@ on boot
 	chmod 0777 /system/etc/audio/ArkamysTuning.txt
 
 # +++++++++++++++++++++++++++++++++++++++++++
+#Define modem related settings
+    setprop ro.radio.use-ppp yes
+
 # for Bluetooth
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
     chown bluetooth bluetooth /proc/bluetooth/sleep/proto
@@ -316,6 +364,13 @@ on boot
     chown bluetooth bluetooth /dev/uinput
     chmod 0666 /dev/uinput
 
+    chmod 0660 /dev/input/event3
+    chmod 0660 /dev/input/mouse0
+    chmod 0660 /dev/input/event2
+    chmod 0660 /dev/input/event1
+    chmod 0660 /dev/input/mice
+    chmod 0660 /dev/input/event0
+
     chown bluetooth bluetooth /dev/s3c2410_serial0
     chmod 0666 /dev/s3c2410_serial0
     chmod 0777 /sys/class/rfkill/rfkill0/state
@@ -325,6 +380,9 @@ on boot
 
     chown root root /system/bin/brcm_dutMode
     chmod 6777 /system/bin/brcm_dutMode
+# for datarouter
+    chown system system /dev/ttygs0
+    chown system system /dev/dun
 # +++++++++++++++++++++++++++++++++++++++++++
 
     class_start default

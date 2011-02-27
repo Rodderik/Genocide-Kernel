@@ -33,7 +33,7 @@ CONFIG_CONSTRUCTORS=y
 # General setup
 #
 CONFIG_BLK_DEV_INITRD=y
-CONFIG_INITRAMFS_SOURCE="/home/teamviper/Genocide-Kernel-EB13/EB13_Genocide_initramfs"
+CONFIG_INITRAMFS_SOURCE="/home/teamviper/Genocide-Kernel-EB13/existz-initramfs-i9000-suckerpunch/out/"
 CONFIG_INITRAMFS_ROOT_UID=1005
 CONFIG_INITRAMFS_ROOT_GID=1005
 CONFIG_RD_GZIP=y

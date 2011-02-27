@@ -1,4 +1,4 @@
-#!/sbin/sh
+#! /system/bin/sh
 #
 # Warning: if you want to run this script in cm-recovery change the above to #!/sbin/sh
 #
@@ -186,15 +186,15 @@ fp_start()
          DATAMOUNT=1
       fi
       
-      if $TEST -e /dev/block/mmcblk0p1 && $TEST $( $GREP -c " /mnt/sdcard " "/proc/mounts" ) -eq 0; then
-         $MOUNT /mnt/sdcard > /dev/null 2>&1
+      if $TEST -e /dev/block/mmcblk0p2 && $TEST $( $GREP -c " /system/sd " "/proc/mounts" ) -eq 0; then
+         $MOUNT /system/sd > /dev/null 2>&1
          SYSSDMOUNT=1
       fi
    fi
-   if $TEST $( $MOUNT | $GREP -c /mnt/sdcard ) -eq 0; then
+   if $TEST $( $MOUNT | $GREP -c /sdcard ) -eq 0; then
       LOG_FILE="/data/fix_permissions.log"
    else
-      LOG_FILE="/mnt/sdcard/fix_permissions.log"
+      LOG_FILE="/sdcard/fix_permissions.log"
    fi
    if $TEST ! -e "$LOG_FILE"; then
       > $LOG_FILE
@@ -445,7 +445,7 @@ fp_end()
    fi
    
    if $TEST $SYSSDMOUNT -eq 1; then
-      $UMOUNT /mnt/sdcard > /dev/null 2>&1
+      $UMOUNT /system/sd > /dev/null 2>&1
    fi
    
    if $TEST $SYSMOUNT -eq 1; then

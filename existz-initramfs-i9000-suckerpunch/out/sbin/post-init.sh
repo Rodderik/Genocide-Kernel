@@ -265,7 +265,7 @@ echo $(date) Unloading and deleting unused modules...
 # unload un-needed filesystem modules
 if [ -z "`/res/mount | grep jfs`" ]; then
 	rmmod jfs
-	rm /lib/modules/jfs.ko
+	#rm /lib/modules/jfs.ko
 fi
 if [ -z "`/res/mount | grep ext3`" ]; then
 	rmmod ext3
