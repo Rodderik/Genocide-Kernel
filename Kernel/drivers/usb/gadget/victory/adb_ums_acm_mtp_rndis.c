@@ -296,6 +296,11 @@ static int acm_ums_adb_bind_config(struct usb_configuration *c)
 		printk("[%s] Fail to adb_function_config_changed()\n", __func__);
 		return ret;
 	}
+	ret = rndis_function_config_changed(dev->cdev, c);
+	if (ret) {
+		printk("[%s] Fail to rndis_function_config_changed()\n", __func__);
+		return ret;
+	}
 	return ret;
 }
 
@@ -549,6 +554,7 @@ static int __init android_bind(struct usb_composite_dev *cdev)
 	printk("[%s] Enabling adb function at booting\n", __func__);
 	enable_adb(dev, USBSTATUS_ADB);
 #endif
+
 
 	INFO(cdev, "%s, version: " DRIVER_VERSION "\n", DRIVER_DESC);
 
