@@ -9,11 +9,12 @@ Browse to Kernel/arch/arm/configs/ and edit victory_03_defconfig and change the 
 Then refer to the README.txt on what else you need to change.
 
 Changelog:
-Added RNDIS support for Wired Tether
+Battery Status Polling Interval changed from 2000 to 30000 (30 seconds)
+Added RNDIS support for Wired Tether (tested with easytether lite)
 Added CONFIG_ARM_THUMBEE=y (as suggested by gzub)
 Set 4k read ahead in mtd_blkdevs.c (faster boot?)
 existz-initramfs-i9000-suckerpunch ported to Epic - broken right now
-Removed CONFIG_DEBUG_INFO=y (give us smaller kernel image and modules including new cifs.ko)
+Removed CONFIG_DEBUG_INFO=y (gives us smaller kernel image and all modules including new cifs.ko)
 CFLAGS_KERNEL	= -O2 -pipe -mcpu=cortex-a8 -mtune=cortex-a8 -mfloat-abi=soft -mfpu=neon
 *Removed About Phone information (Caused FC and weird bugs in apps)
 Fixed error that wouldn't let cpu drop below 200MHz
