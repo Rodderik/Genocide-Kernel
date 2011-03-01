@@ -9,6 +9,7 @@ Browse to Kernel/arch/arm/configs/ and edit victory_03_defconfig and change the 
 Then refer to the README.txt on what else you need to change.
 
 Changelog:
+Keyboard patch by mkasick http://forum.xda-developers.com/showthread.php?p=11755093
 Battery Status Polling Interval changed from 2000 to 30000 (30 seconds)
 Added RNDIS support for Wired Tether (tested with easytether lite)
 Added CONFIG_ARM_THUMBEE=y (as suggested by gzub)
