@@ -9,6 +9,8 @@ Browse to Kernel/arch/arm/configs/ and edit victory_03_defconfig and change the 
 Then refer to the README.txt on what else you need to change.
 
 Changelog:
+Added RNDIS support for Wired Tether
+Added CONFIG_ARM_THUMBEE=y (as suggested by gzub)
 Set 4k read ahead in mtd_blkdevs.c (faster boot?)
 existz-initramfs-i9000-suckerpunch ported to Epic - broken right now
 Removed CONFIG_DEBUG_INFO=y (give us smaller kernel image and modules including new cifs.ko)
