@@ -45,11 +45,9 @@ Started on Voodoo mods
 DK28 initramfs (for pre-EB13/OTA compatibility)
 
 TODO:
-Voodoo mods maybe
-Remove/raise framerate cap
-Tweak more voltages for better battery life
-Compile ext4 into kernel instead of using the kernel module in initramfs
-Tweak with gcc flags
+Voodoo sound
+Remove/raise framerate cap (know how but not doing until other tweaks are in first)
+Tweak more voltages for better battery life (or use voltage control app)
 Fix quickboot/redirector (3 finger salute works for now) RFS works fine, EXT4 gets stuck on boot logo
 
-Please leave comments and suggestions in the thread on xda-developers (or send me a private message)
+Please leave comments and suggestions or if you would like to help leave me a message in the thread on xda-developers (or send me a private message)
