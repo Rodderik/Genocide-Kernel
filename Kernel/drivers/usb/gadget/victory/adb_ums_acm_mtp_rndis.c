@@ -586,12 +586,13 @@ static struct usb_composite_driver android_usb_driver = {
 };
 
 int currentusbstatus=0;
-extern int oldusbstatus;
+//extern int oldusbstatus; mkasick fix
 int UmsCDEnable=0;
 int ums_mount_status = 0;
 int askonstatus = 0;
 int inaskonstatus=0;
 static int prev_status_before_adb;  // previous USB setting before using ADB
+static int prev_status_before_vtp;  // previous USB setting before using VTP
 static int prev_enable_status;  // previous USB setting
 extern int mtp_mode_on;
 extern int usb_on;
@@ -620,7 +621,7 @@ static void enable_adb(struct android_dev *dev, int enable)
 askonstatus=0;
 
 recheck:
-	oldusbstatus = currentusbstatus;
+//	oldusbstatus = currentusbstatus;
 	currentusbstatus=enable;
 	
 		ums_mount_status=0;
@@ -667,6 +668,7 @@ recheck:
 		dev->adb_enabled = enable;
 #else
 		mtp_mode_on = 0;
+			prev_status_before_vtp = prev_enable_status;
         ret = usb_change_config(dev->cdev, &rndis_only_config);
 			if (ret) {
 				printk("[%s] Fail to rndis_only_config()\n", __func__);
@@ -687,6 +689,14 @@ recheck:
 				prev_enable_status = prev_status_before_adb = 0; //reset
 				goto recheck;
 				}
+			if(prev_enable_status == USBSTATUS_VTP && prev_status_before_vtp != USBSTATUS_UMS) { //mkasick fix
+				printk("[USB] %s - prev_status(0x%02x), prev_status_before_vtp setting(0x%02x)\n",
+						__func__, prev_enable_status, prev_status_before_vtp);
+				enable = prev_status_before_vtp;  // set previous status
+				prev_enable_status = prev_status_before_vtp = 0; //reset
+				goto recheck;
+				}
+
 
 			ret = usb_change_config(dev->cdev, &ums_only_config);
 			if (ret) {
@@ -771,7 +781,7 @@ static void enable_askon(struct android_dev *dev, int enable)
 		Set_MAX8998_PM_ADDR(reg_address,&reg_value,1);
           
 
-	oldusbstatus = currentusbstatus;
+//	oldusbstatus = currentusbstatus; mkasick fix
 	currentusbstatus=enable;
 
 recheck:
