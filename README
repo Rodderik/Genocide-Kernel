@@ -9,7 +9,7 @@ Browse to Kernel/arch/arm/configs/ and edit victory_03_defconfig and change the 
 Then refer to the README.txt on what else you need to change.
 
 Changelog:
-RDNIS Froyo Fix by mkasick
+RDNIS Froyo Fix by mkasick (use wired tether from http://forum.xda-developers.com/showthread.php?t=964925)
 Wireless Tether fixes by mkasick http://forum.xda-developers.com/showpost.php?p=11808622&postcount=88 (should fix 4G tethering issues)
 Keyboard patch by mkasick http://forum.xda-developers.com/showthread.php?p=11755093
 Battery Status Polling Interval changed from 2000 to 30000 (30 seconds)
