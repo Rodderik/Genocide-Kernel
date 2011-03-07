@@ -1110,8 +1110,12 @@ SYSCALL_DEFINE0(setsid)
 	err = session;
 out:
 	write_unlock_irq(&tasklist_lock);
-	if (err > 0)
+	if (err > 0) {
 		proc_sid_connector(group_leader);
+#ifdef CONFIG_SCHED_AUTOGROUP
+	sched_autogroup_create_attach(group_leader);
+#endif
+  	}
 	return err;
 }
 
