@@ -11,6 +11,7 @@ Then refer to the README.txt on what else you need to change.
 Changelog Legend: "+" introduce addition/modification, "-" removed addition/modification, "*" changed addition/modification
 
 Changelog:
++lowmemorykiller.c patch https://github.com/existz/kernel-i9000-suckerpunch/
 +Voodoo Sound v4 by supercurio https://github.com/project-voodoo/sound_kernel_patches
 +Added sched_autogroup v4 patch (Patch to smooth system under load) https://github.com/existz/kernel-i9000-suckerpunch/ & http://www.phoronix.com/scan.php?page=article&item=linux_2637_video&num=1 NOTE: Enable/disable by echoing either 0 or 1 to /proc/sys/kernel/sched_autogroup_enabled
 +Changed swappiness from 60 to 10 (dumps RAM to swap less often for those with a swap partition)
