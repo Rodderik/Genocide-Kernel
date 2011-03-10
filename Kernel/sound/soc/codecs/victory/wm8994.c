@@ -36,6 +36,7 @@
 #include <plat/map-base.h>
 #include <mach/regs-clock.h>
 #include "wm8994.h"
+#include "wm8994_voodoo.h"
 
 #ifdef FEATURE_SS_AUDIO_CAL
 #include <linux/proc_fs.h>
@@ -239,6 +240,11 @@ int wm8994_write(struct snd_soc_codec *codec, unsigned int reg, unsigned int val
 	 *   D15..D9 WM8993 register offset
 	 *   D8...D0 register data
 	 */
+
+#ifdef CONFIG_SND_VOODOO
+ value = voodoo_hook_wm8994_write(codec, reg, value);
+#endif
+
 	data[0] = (reg & 0xff00 ) >> 8;
 	data[1] = reg & 0x00ff;
 	data[2] = value >> 8;
@@ -2415,6 +2421,11 @@ static int wm8994_pcm_probe(struct platform_device *pdev)
 #else
                 /* Add other interfaces here */
 #endif
+
+#ifdef CONFIG_SND_VOODOO
+ voodoo_hook_wm8994_pcm_probe(codec);
+#endif
+
         return ret;
 }
 

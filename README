@@ -11,6 +11,7 @@ Then refer to the README.txt on what else you need to change.
 Changelog Legend: "+" introduce addition/modification, "-" removed addition/modification, "*" changed addition/modification
 
 Changelog:
++Voodoo Sound v4 by supercurio https://github.com/project-voodoo/sound_kernel_patches
 +Added sched_autogroup v4 patch (Patch to smooth system under load) https://github.com/existz/kernel-i9000-suckerpunch/ & http://www.phoronix.com/scan.php?page=article&item=linux_2637_video&num=1 NOTE: Enable/disable by echoing either 0 or 1 to /proc/sys/kernel/sched_autogroup_enabled
 +Changed swappiness from 60 to 10 (dumps RAM to swap less often for those with a swap partition)
 +Wireless Tether fixes by mkasick http://forum.xda-developers.com/showpost.php?p=11808622&postcount=88 (should fix 4G tethering issues)
@@ -29,7 +30,7 @@ Changelog:
 
 0.3a:
 +Set defaults speeds to 200MHz min and 1000MHz max (NOW REQUIRES SETCPU TO OVERCLOCK)
-+Compiled in video lag & camera force close fix by mkasick on xda-developers
++Compiled in video lag & camera force close fix by mkasick http://forum.xda-developers.com/showthread.php?t=970452
 *Fixed issue with Firmware version in About Phone (FIXES PANDORA)
 +Set initramfs root UID/GID
 +Compiled and added cifs.ko to initramfs
