@@ -20,7 +20,9 @@
 #include <mach/regs-clock.h>
 #include <mach/gpio.h>
 #include "wm8994.h"
+#ifdef CONFIG_SND_VOODOO
 #include "wm8994_voodoo.h"
+#endif
 #include <mach/sec_jack.h>
 //------------------------------------------------
 //		Debug Feature
