@@ -754,6 +754,11 @@ static int __init s5pc110_cpu_init(struct cpufreq_policy *policy)
 	return cpufreq_frequency_table_cpuinfo(policy, s5pc110_freq_table[S5PC11X_FREQ_TAB]);
 }
 
+static struct freq_attr *s5pc110_cpufreq_attr[] = {
+	&cpufreq_freq_attr_scaling_available_freqs,
+	NULL,
+};
+
 static struct cpufreq_driver s5pc110_driver = {
 	.flags		= CPUFREQ_STICKY,
 	.verify		= s5pc110_verify_speed,
@@ -761,6 +766,7 @@ static struct cpufreq_driver s5pc110_driver = {
 	.get		= s5pc110_getspeed,
 	.init		= s5pc110_cpu_init,
 	.name		= "s5pc110",
+	.attr		= s5pc110_cpufreq_attr,
 };
 
 static int __init s5pc110_cpufreq_init(void)

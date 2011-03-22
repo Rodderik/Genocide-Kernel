@@ -12,6 +12,7 @@ Changelog Legend: "+" introduce addition/modification, "-" removed addition/modi
 
 Changelog:
 +EC05 source merge
++scaling_available_frequencies sysfs from nullghost http://forum.xda-developers.com/showthread.php?t=1000309
 
 0.4a
 +lowmemorykiller.c patch https://github.com/existz/kernel-i9000-suckerpunch/
