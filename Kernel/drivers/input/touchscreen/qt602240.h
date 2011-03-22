@@ -5282,6 +5282,7 @@ typedef struct
 struct qt602240_data {
 	struct i2c_client *client;
 	struct input_dev *input_dev;
+	struct input_dev *touchkey_input_dev;
 	struct work_struct ts_event_work;
 	unsigned int irq;
 	struct early_suspend	early_suspend;	

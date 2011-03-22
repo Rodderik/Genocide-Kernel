@@ -1096,10 +1096,6 @@ config VIDEO_S5KA3DFX
         ---help---
           This driver supports S5KA3DFX SoC camera module
 
-config VIDEO_S5KA3DFX_ATLAS
-        bool "Select S5KA3DFX SoC camera module for atlas"
-        depends on VIDEO_S5KA3DFX
-
 config VIDEO_S5KA3DFX_VICTORY
         bool "Select S5KA3DFX SoC camera module for victory"
         depends on VIDEO_S5KA3DFX

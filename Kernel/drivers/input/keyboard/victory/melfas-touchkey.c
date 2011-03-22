@@ -41,10 +41,10 @@
 
 #undef _3_GPIO_TOUCH_INT
 #define _3_GPIO_TOUCH_INT S5PV210_GPJ3(3)
-
 #undef _3_GPIO_TOUCH_EN
 #define _3_GPIO_TOUCH_EN S5PV210_GPJ1(3)
-
+#define IRQ_TOUCH_INT S3C_GPIOINT(J3,3)
+#define IRQ_TOUCH_INT_MASK 0xf000
 
 /*
 Melfas touchkey register
@@ -66,13 +66,11 @@ Melfas touchkey register
 
 #define I2C_M_WR 0 /* for i2c */
 
-#define IRQ_TOUCH_INT S3C_GPIOINT(J3,3)
-#define IRQ_TOUCH_INT_MASK 0xf000
-
 #define TOUCH_KEY_SEARCH 107
 #define TOUCH_KEY_BACK 102
 #define TOUCH_KEY_HOME 139
 #define TOUCH_KEY_MENU 158
+
 extern int set_tsp_for_usb_detect(int state);
 extern int set_tsp_for_ta_detect(int state);
 
@@ -279,13 +277,13 @@ static void melfas_touchkey_early_suspend(struct early_suspend *h)
 	//gpio_direction_output(_3_GPIO_TOUCH_EN, 0);
 	//gpio_free(_3_GPIO_TOUCH_EN);
 
-	err=gpio_request(_3_GPIO_TOUCH_CE,"_3_GPIO_TOUCH_CE");
+/*	err=gpio_request(_3_GPIO_TOUCH_CE,"_3_GPIO_TOUCH_CE");
 	if (err)
 	{
 		printk("_3_GPIO_TOUCH_CE GPIO failed\n");
 		return ;
 	}
-	//gpio_direction_output(_3_GPIO_TOUCH_CE, 0);
+*/	//gpio_direction_output(_3_GPIO_TOUCH_CE, 0);
 	//gpio_free(_3_GPIO_TOUCH_CE);
 }
 
@@ -414,7 +412,7 @@ static void init_hw(void)
 	msleep(100);
         s3c_gpio_setpull(_3_GPIO_TOUCH_INT, S3C_GPIO_PULL_NONE);
         set_irq_type(IRQ_TOUCH_INT, IRQ_TYPE_LEVEL_LOW);
-        s3c_gpio_cfgpin(S5PV210_GPJ3(3), S3C_GPIO_SFN(0xf));
+        s3c_gpio_cfgpin(_3_GPIO_TOUCH_INT, S3C_GPIO_SFN(0xf));
 }
 
 
@@ -507,7 +505,7 @@ void  touchkey_update_func(struct work_struct * p)
 	printk("%s start\n",__FUNCTION__);
 	while(retry--)
 	{
-		if(/*mcsdl_download_binary_file() == */1)
+		if(1)
 		{
 			touchkey_update_status = 0;
 			printk("touchkey_update successed\n");

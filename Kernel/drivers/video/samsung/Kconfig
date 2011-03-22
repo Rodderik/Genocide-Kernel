@@ -104,6 +104,14 @@ config  FB_S3C_TL2796_VICTORY
         bool "Select codec for victory"
         depends on FB_S3C_TL2796
 
+config FB_S3C_NT35580
+        bool "NT35580"
+        depends on S5PV210_CRESPO_DELTA
+        select SPI
+        select SPI_GPIO
+        select SPI_BITBANG
+        ---help---
+          This enables support for SONY NT35580 WVGA LCD panel
 
 config FB_S3C_HT101HD1
 	bool "HT101HD1"

@@ -63,7 +63,11 @@ const unsigned short s6e63m0_SEQ_SETTING[] = {
 	0x110,
 	
 	0x0F7,
+#ifdef CONFIG_S5PV210_CRESPO_DELTA
+	0x103,	0x100,	
+#else
 	0x100,	0x100,	
+#endif
 	0x100,
 	
 	//etc condition set

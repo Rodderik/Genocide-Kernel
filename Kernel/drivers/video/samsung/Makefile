@@ -24,6 +24,14 @@ ifeq ($(CONFIG_FB_S3C_TL2796_ATLAS),y)
 obj-$(CONFIG_FB_S3C_TL2796)     += atlas/s3cfb_tl2796.o atlas/s6e63m0.o
 endif
 
+ifeq ($(CONFIG_S5PV210_CRESPO_DELTA),y)
+ifdef CONFIG_FB_S3C_NT35580
+obj-$(CONFIG_FB_S3C_NT35580)	+= victory/s3cfb_nt35580.o
+else
+obj-$(CONFIG_FB_S3C_TL2796)     += victory/s3cfb_tl2796.o victory/s6e63m0.o
+endif
+endif
+
 obj-$(CONFIG_FB_S3C_AMS701KA)	+= s3cfb_ams701ka.o
 obj-$(CONFIG_FB_S3C_MDNIE)      += s3cfb_mdnie.o s3cfb_ielcd.o
 obj-$(CONFIG_FB_S3C_CMC623)     += tune_cmc623.o

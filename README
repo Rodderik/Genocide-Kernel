@@ -1,5 +1,5 @@
-Genocide 1.2GhzOC EB13 Kernel
-for Samsung Epic 4G
+Genocide 1.2GhzOC EC05 Kernel
+for Samsung Epic 4G (DK28 and EB13 compatible)
 
 http://forum.xda-developers.com/showthread.php?t=961614
 
@@ -11,6 +11,9 @@ Then refer to the README.txt on what else you need to change.
 Changelog Legend: "+" introduce addition/modification, "-" removed addition/modification, "*" changed addition/modification
 
 Changelog:
++EC05 source merge
+
+0.4a
 +lowmemorykiller.c patch https://github.com/existz/kernel-i9000-suckerpunch/
 +Voodoo Sound v4 by supercurio https://github.com/project-voodoo/sound_kernel_patches
 +Added sched_autogroup v4 patch (Patch to smooth system under load) https://github.com/existz/kernel-i9000-suckerpunch/ & http://www.phoronix.com/scan.php?page=article&item=linux_2637_video&num=1 NOTE: Enable/disable by echoing either 0 or 1 to /proc/sys/kernel/sched_autogroup_enabled
@@ -27,7 +30,6 @@ Changelog:
 +CFLAGS_KERNEL	= -O2 -pipe -mcpu=cortex-a8 -mtune=cortex-a8 -mfloat-abi=soft -mfpu=neon
 -Removed About Phone information (Caused FC and weird bugs in apps)
 *Fixed error that wouldn't let cpu drop below 200MHz
-
 
 0.3a:
 +Set defaults speeds to 200MHz min and 1000MHz max (NOW REQUIRES SETCPU TO OVERCLOCK)
@@ -52,7 +54,6 @@ Changelog:
 +DK28 initramfs (for pre-EB13/OTA compatibility)
 
 TODO:
-Voodoo sound
 Remove/raise framerate cap (know how but not doing until other tweaks are in first)
 Tweak more voltages for better battery life (or use voltage control app)
 Fix quickboot/redirector (3 finger salute works for now) RFS works fine, EXT4 gets stuck on boot logo

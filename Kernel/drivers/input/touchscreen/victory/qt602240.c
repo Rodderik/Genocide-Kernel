@@ -2896,6 +2896,8 @@ void TSP_forced_release_forOKkey(void)
 
 EXPORT_SYMBOL(TSP_forced_release_forOKkey);
 #endif // Froyo Merging 
+
+
 void  get_message(struct work_struct * p)
 {
 	unsigned long x, y;
@@ -3065,6 +3067,7 @@ void  get_message(struct work_struct * p)
 			y = y | ((quantum_msg[4] & 0x0C)  >> 2);
 
 			size = quantum_msg[5];
+			printk("******** Touch Finger********* x=%d y=%d\n", x,y );	
 #if 0
 			if( size > 20 ) {
 				print_msg();
@@ -3198,7 +3201,6 @@ void  get_message(struct work_struct * p)
 			for ( i= 0; i<MAX_USING_FINGER_NUM; ++i )
 			{
 				if ( fingerInfo[i].pressure == -1 ) continue;
-	
 				input_report_abs(qt602240->input_dev, ABS_MT_POSITION_X, fingerInfo[i].x);
 				input_report_abs(qt602240->input_dev, ABS_MT_POSITION_Y, fingerInfo[i].y);
 				input_report_abs(qt602240->input_dev, ABS_MT_TOUCH_MAJOR, fingerInfo[i].pressure);	// 0이면 Release, 아니면 Press 상태(Down or Move)
@@ -3530,7 +3532,7 @@ irqreturn_t qt602240_irq_handler(int irq, void *dev_id)
 int qt602240_probe(struct i2c_client *client,
 		       const struct i2c_device_id *id)
 {
-	int ret;	
+	int ret, err=0;	
 	int i;
 
 	qt602240->client = client;

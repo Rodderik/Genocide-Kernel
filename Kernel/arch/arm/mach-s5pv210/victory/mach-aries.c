@@ -88,6 +88,8 @@
 #include <linux/onedram.h>
 #include <linux/irq.h>
 #endif
+#include "crespo.h"
+#include <../../../drivers/video/samsung/s3cfb.h>
 
 struct class *sec_class;
 EXPORT_SYMBOL(sec_class);
@@ -166,6 +168,56 @@ static struct s3c2410_uartcfg smdkv210_uartcfgs[] __initdata = {
 	},
 };
 
+static struct s3cfb_lcd tl2796 = {
+	.width = 480,
+	.height = 800,
+	.p_width = 52,
+	.p_height = 86,
+	.bpp = 24,
+	.freq = 60,
+
+	.timing = {
+		.h_fp = 16,
+		.h_bp = 16,
+		.h_sw = 2,
+		.v_fp = 28,
+		.v_fpe = 1,
+		.v_bp = 1,
+		.v_bpe = 1,
+		.v_sw = 2,
+	},
+	.polarity = {
+		.rise_vclk = 1,
+		.inv_hsync = 1,
+		.inv_vsync = 1,
+		.inv_vden = 1,
+	},
+};
+
+static struct s3cfb_lcd nt35580 = {
+	.width = 480,
+	.height = 800,
+	.p_width = 52,
+	.p_height = 86,
+	.bpp = 24,
+	.freq = 60,
+	.timing = {
+		.h_fp = 10,
+		.h_bp = 20,
+		.h_sw = 10,
+		.v_fp = 6,
+		.v_fpe = 1,
+		.v_bp = 8,
+		.v_bpe = 1,
+		.v_sw = 2,
+	},
+	.polarity = {
+		.rise_vclk = 1,
+		.inv_hsync = 1,
+		.inv_vsync = 1,
+		.inv_vden = 1,
+	},
+};
 
 #if defined(CONFIG_TOUCHSCREEN_QT602240)
 static struct platform_device s3c_device_qtts = {
@@ -312,7 +364,7 @@ struct platform_device s3c_device_8998consumer = {
 };
 
 
-static void tl2796_cfg_gpio(struct platform_device *pdev)
+static void panel_cfg_gpio(struct platform_device *pdev)
 {
 	int i;
 
@@ -437,7 +489,7 @@ void lcd_cfg_gpio_late_resume(void)
 }
 EXPORT_SYMBOL(lcd_cfg_gpio_late_resume);
 
-static int tl2796_reset_lcd(struct platform_device *pdev)
+static int panel_reset_lcd(struct platform_device *pdev)
 {
 	int err;
 
@@ -463,22 +515,36 @@ static int tl2796_reset_lcd(struct platform_device *pdev)
 	return 0;
 }
 
-static int tl2796_backlight_on(struct platform_device *pdev)
+static int panel_backlight_on(struct platform_device *pdev)
 {
 }
 
 //chk changed: froyo upmg
 static struct s3c_platform_fb tl2796_data __initdata = {
-        .hw_ver = 0x62,
-        .clk_name = "sclk_fimd",
-        .nr_wins = 5,
-        .default_win = CONFIG_FB_S3C_DEFAULT_WINDOW,
-        .swap = FB_SWAP_HWORD | FB_SWAP_WORD,
-
-        .cfg_gpio = tl2796_cfg_gpio,
-        .backlight_on = tl2796_backlight_on,
-        .reset_lcd = tl2796_reset_lcd,
+	.hw_ver		= 0x62,
+	.clk_name	= "sclk_fimd",
+	.nr_wins	= 5,
+	.default_win	= CONFIG_FB_S3C_DEFAULT_WINDOW,
+	.swap		= FB_SWAP_HWORD | FB_SWAP_WORD,
+	.lcd		= &tl2796,
+	.cfg_gpio	= panel_cfg_gpio,
+	.backlight_on	= panel_backlight_on,
+	.reset_lcd	= panel_reset_lcd,
 };
+
+static struct s3c_platform_fb nt35580_data __initdata = {
+	.hw_ver         = 0x62,
+	.clk_name       = "sclk_fimd",
+	.nr_wins        = 5,
+	.default_win    = CONFIG_FB_S3C_DEFAULT_WINDOW,
+	.swap           = FB_SWAP_HWORD | FB_SWAP_WORD,
+
+	.lcd                    = &nt35580,
+	.cfg_gpio       = panel_cfg_gpio,
+	.backlight_on   = panel_backlight_on,
+	.reset_lcd      = panel_reset_lcd,
+};
+
 #define LCD_BUS_NUM     3
 #define DISPLAY_CS      S5PV210_MP01(1)
 #define SUB_DISPLAY_CS  S5PV210_MP01(2)
@@ -490,12 +556,24 @@ static struct spi_board_info spi_board_info[] __initdata = {
         {
                 .modalias       = "tl2796",
                 .platform_data  = NULL,
-                .max_speed_hz   = 1200000,
-                .bus_num        = LCD_BUS_NUM,
-                .chip_select    = 0,
-                .mode           = SPI_MODE_3,
-                .controller_data = (void *)DISPLAY_CS,
-        },
+		.max_speed_hz   = 1200000,
+		.bus_num        = LCD_BUS_NUM,
+		.chip_select    = 0,
+		.mode           = SPI_MODE_3,
+		.controller_data = (void *)DISPLAY_CS,
+	},
+};
+
+static struct spi_board_info spi_board_info_tft[] __initdata = {
+	{
+		.modalias       = "nt35580",
+		.platform_data  = &herring_panel_data_tft,
+		.max_speed_hz   = 1200000,
+		.bus_num        = LCD_BUS_NUM,
+		.chip_select    = 0,
+		.mode           = SPI_MODE_3,
+		.controller_data = (void *)DISPLAY_CS,
+	},
 };
 
 static struct spi_gpio_platform_data tl2796_spi_gpio_data = {
@@ -1860,6 +1938,85 @@ static struct platform_device	sec_device_btsleep = {
 /* << bluetooth -end */
 /******************/
 
+#ifdef CONFIG_S5PV210_CRESPO_DELTA
+static struct regulator_init_data max8893_ldo1_data = {
+        .constraints    = {
+                .name           = "VIO_2.8V",
+                .min_uV         = 2800000,
+                .max_uV         = 2800000,
+		.always_on	= 0,
+                .apply_uV       = 1,
+		.valid_ops_mask	= REGULATOR_CHANGE_VOLTAGE,
+        },
+};
+
+static struct regulator_init_data max8893_ldo2_data = {
+        .constraints    = {
+                .name           = "VDD_RF_1.2V",
+                .min_uV         = 1200000,   
+                .max_uV         = 1200000,  
+		.always_on	= 0,
+                .apply_uV       = 1,
+		.valid_ops_mask	= REGULATOR_CHANGE_VOLTAGE,
+        },
+};
+
+static struct regulator_init_data max8893_ldo3_data = {
+        .constraints    = {
+                .name           = "VRTC_3.3V",
+                .min_uV         = 3300000,
+                .max_uV         = 3300000,
+		.always_on	= 0,
+                .apply_uV       = 1,
+		.valid_ops_mask	= REGULATOR_CHANGE_VOLTAGE,
+        },
+};
+
+static struct regulator_init_data max8893_ldo4_data = {
+        .constraints    = {
+                .name           = "WIMAX_VREF_2.9V",
+                .min_uV         = 2900000,
+                .max_uV         = 2900000,
+		.always_on	= 0,
+                .apply_uV       = 1,
+		.valid_ops_mask	= REGULATOR_CHANGE_VOLTAGE,
+        },
+};
+
+static struct regulator_init_data max8893_ldo5_data = {
+        .constraints    = {
+                .name           = "VDD_RF_2.8V",
+                .min_uV         = 2800000,
+                .max_uV         = 2800000,
+		.always_on	= 0,
+		.valid_ops_mask	= REGULATOR_CHANGE_VOLTAGE,
+        },
+};
+
+static struct regulator_init_data max8893_buck_data = {
+        .constraints    = {
+                .name           = "VPLL & VDDC & VUSB1.2V",
+                .min_uV         = 1200000,
+                .max_uV         = 1200000,
+		.always_on	= 1,
+                .apply_uV       = 1,
+		.valid_ops_mask	= REGULATOR_CHANGE_VOLTAGE,
+        },
+};
+
+
+static struct max8893_subdev_data universal_8893_regulators[] = {
+	{ MAX8893_LDO1, &max8893_ldo1_data },
+	{ MAX8893_LDO2, &max8893_ldo2_data },
+  	{ MAX8893_LDO3, &max8893_ldo3_data },
+	{ MAX8893_LDO4, &max8893_ldo4_data },
+  	{ MAX8893_LDO5, &max8893_ldo5_data },
+  	{ MAX8893_BUCK, &max8893_buck_data },
+};
+
+
+#else
+
 static struct regulator_init_data max8893_ldo1_data = {
         .constraints    = {
                 .name           = "WIMAX_2.9V",
@@ -1870,6 +2027,7 @@ static struct regulator_init_data max8893_ldo1_data = {
 		.valid_ops_mask	= REGULATOR_CHANGE_VOLTAGE,
         },
 };
+
 
 static struct regulator_init_data max8893_ldo2_data = {
         .constraints    = {
@@ -1929,11 +2087,13 @@ static struct regulator_init_data max8893_buck_data = {
 static struct max8893_subdev_data universal_8893_regulators[] = {
 	{ MAX8893_LDO1, &max8893_ldo1_data },
 	{ MAX8893_LDO2, &max8893_ldo2_data },
-  { MAX8893_LDO3, &max8893_ldo3_data },
+	{ MAX8893_LDO3, &max8893_ldo3_data },
 	{ MAX8893_LDO4, &max8893_ldo4_data },
-  { MAX8893_LDO5, &max8893_ldo5_data },
-  { MAX8893_BUCK, &max8893_buck_data },
+  	{ MAX8893_LDO5, &max8893_ldo5_data },
+  	{ MAX8893_BUCK, &max8893_buck_data },
 };
+
+#endif
 
 static struct max8893_platform_data max8893_platform_data = {
 	.num_regulators	= ARRAY_SIZE(universal_8893_regulators),
@@ -2391,9 +2551,7 @@ void s3c_config_gpio_alive_table(int array_size, int (*gpio_table)[4])
 static struct platform_device *smdkc110_devices[] __initdata = {
 	&s3c_device_fb,
 	&s3c_device_mfc,
-#ifdef CONFIG_FB_S3C_TL2796
 	&s3c_device_spi_gpio,
-#endif
 #ifdef CONFIG_S3C_DEV_HSMMC
         &s3c_device_hsmmc0,
 #endif
@@ -2782,6 +2940,13 @@ static void __init smdkc110_machine_init(void)
 #ifdef CONFIG_FB_S3C_TL2796
         spi_register_board_info(spi_board_info, ARRAY_SIZE(spi_board_info));
         s3cfb_set_platdata(&tl2796_data);
+#endif
+
+#ifdef CONFIG_S5PV210_CRESPO_DELTA
+#ifdef CONFIG_FB_S3C_NT35580	
+	spi_register_board_info(spi_board_info_tft, ARRAY_SIZE(spi_board_info_tft));
+	s3cfb_set_platdata(&nt35580_data);
+#endif
 #endif
 
 #if defined(CONFIG_S5PV210_ADCTS)

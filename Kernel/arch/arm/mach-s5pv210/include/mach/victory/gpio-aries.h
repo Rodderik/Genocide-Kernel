@@ -356,10 +356,10 @@
 #define GPIO_WLAN_HOST_WAKE		S5PV210_GPH0(3)//SecFeature.Victory
 //SecFeature.Victory #define GPIO_BUCK_1_EN_A		S5PC11X_GPH0(3)
 
-#define GPIO_BUCK_1_EN_B		S5PV210_GPH0(4)
+#define GPIO_BUCK_1_EN_B		S5PV210_GPB(3)
 #define GPIO_BUCK_1_EN_B_AF		1
 
-#define GPIO_BUCK_2_EN			S5PV210_GPH0(5)
+#define GPIO_BUCK_2_EN			S5PV210_GPB(7)
 #define GPIO_BUCK_2_EN_AF		1
 
 #define GPIO_DET_35				S5PV210_GPH0(6)
@@ -434,6 +434,7 @@
 #define GPIO_KEY_I2C_SDA        S5PV210_GPH3(5)
 #define GPIO_KEY_I2C_SDA_AF     1
 
+
 #define GPIO_EAR_SEND_END_OPEN		S5PV210_GPH2(2)
 #define GPIO_EAR_SEND_END_OPEN_AF	0xFF
 
@@ -483,7 +484,6 @@
 
 #define GPIO_VIBTONE_EN1		S5PV210_GPJ1(1)
 
-#define GPIO_OJ_MOTION			S5PV210_GPJ1(2)
 
 #define GPIO_TOUCH_EN			S5PV210_GPJ1(3)
 #define	GPIO_TOUCH_EN_AF		1
@@ -551,7 +551,11 @@
 #else
 #define GPIO_AP_PMIC_SCL		S5PV210_GPJ4(3)
 #endif
+#ifdef CONFIG_S5PV210_CRESPO_DELTA
+#define GPIO_BT_WAKE			S5PV210_GPJ1(2)
+#else
 #define GPIO_BT_WAKE			S5PV210_GPG3(4)
+#endif
 #define GPIO_WLAN_WAKE		S5PV210_GPG3(5)
 
 //#define GPIO_BT_WAKE			S5PV210_GPJ4(4)
@@ -733,21 +737,21 @@
 #define	GPIO_JACK_INT_N_AF	0xFF
 #define GPIO_TV_EN GPIO_TVOUT_SEL
 
-#if 1 //FROYO MERGE
+#ifdef CONFIG_S5PV210_CRESPO_DELTA
+#define _3_TOUCH_SDA_28V                S5PV210_GPJ2(5)//hojun_kim GPIO_TSP_SDA_28V
+#define _3_TOUCH_SCL_28V                S5PV210_GPJ2(6)//hojun_kim GPIO_TSP_SCL_28V
+#define _3_GPIO_TOUCH_INT               S5PV210_GPJ2(3)//hojun_kim GPIO_TOUCH_INT
+#define _3_GPIO_TOUCH_EN                S5PV210_GPJ3(2)//hojun_kim GPIO_TOUCH_EN
+#define _3_GPIO_TOUCH_EN_AF             GPIO_TOUCH_EN_AF
+//#define _3_GPIO_TOUCH_CE                S5PV210_GPJ3(2)//hojun_kim GPIO_TOUCH_EN //froyo_merge_check
+#define _3_GPIO_TOUCH_ST_AF             GPIO_TOUCH_EN_AF
+#else 
 #define _3_TOUCH_SDA_28V		S5PV210_GPG3(0)//hojun_kim GPIO_TSP_SDA_28V
 #define _3_TOUCH_SCL_28V		S5PV210_GPG3(2)//hojun_kim GPIO_TSP_SCL_28V
 #define _3_GPIO_TOUCH_INT		S5PV210_GPJ3(3)//hojun_kim GPIO_TOUCH_INT
 #define _3_GPIO_TOUCH_EN		S5PV210_GPJ1(3)//hojun_kim GPIO_TOUCH_EN
 #define _3_GPIO_TOUCH_EN_AF		GPIO_TOUCH_EN_AF
 #define _3_GPIO_TOUCH_CE		S5PV210_GPJ3(2)//hojun_kim GPIO_TOUCH_EN //froyo_merge_check
-#define _3_GPIO_TOUCH_ST_AF		GPIO_TOUCH_EN_AF
-#else
-#define _3_TOUCH_SDA_28V		GPIO_TSP_SDA_28V
-#define _3_TOUCH_SCL_28V		GPIO_TSP_SCL_28V
-#define _3_GPIO_TOUCH_INT		GPIO_TOUCH_INT
-#define _3_GPIO_TOUCH_EN		GPIO_TOUCH_EN
-#define _3_GPIO_TOUCH_EN_AF		GPIO_TOUCH_EN_AF
-#define _3_GPIO_TOUCH_CE		GPIO_TOUCH_EN
 #define _3_GPIO_TOUCH_ST_AF		GPIO_TOUCH_EN_AF
 #endif
 #define GPIO_TOUCH_RST GPIO_TOUCH_EN

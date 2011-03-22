@@ -46,6 +46,7 @@
 #include <linux/gpio.h>
 #include <plat/gpio-cfg.h>
 #include <mach/gpio.h>
+extern struct s5p_lcd *lcd_1;
 
 extern void tl2796_ldi_stand_by(void);
 extern void tl2796_ldi_wake_up(void);
@@ -1249,13 +1250,14 @@ static int s3cfb_sysfs_store_lcd_power(struct device *dev, struct device_attribu
 {
 	if (len < 1)
 		return -EINVAL;
-
+#if CONFIG_FB_S3C_TL2796
 	if (strnicmp(buf, "on", 2) == 0 || strnicmp(buf, "1", 1) == 0)
 		tl2796_ldi_wake_up();
 	else if (strnicmp(buf, "off", 3) == 0 || strnicmp(buf, "0", 1) == 0)
 		tl2796_ldi_stand_by();
 	else
 		return -EINVAL;
+#endif
 
 	return len;
 }
@@ -1334,14 +1336,14 @@ static int s3cfb_probe(struct platform_device *pdev)
 	}
 
 	fbdev->dev = &pdev->dev;
-#if defined(CONFIG_MACH_S5PC110_ARIES)
+#ifndef CONFIG_S5PV210_CRESPO_DELTA
 	s3cfb_set_lcd_info(fbdev);
 #endif
 
 	/* gpio */
 	pdata = to_fb_plat(&pdev->dev);
 
-#if defined(CONFIG_MACH_S5PC110_P1)
+#if defined(CONFIG_S5PV210_CRESPO_DELTA)
 	fbdev->lcd = (struct s3cfb_lcd*)pdata->lcd;
 #endif
 //#if !defined(CONFIG_MACH_S5PC110_ARIES)
@@ -1532,6 +1534,10 @@ static int s3cfb_remove(struct platform_device *pdev)
 extern void tl2796_ldi_init(void);
 extern void tl2796_ldi_enable(void);
 extern void tl2796_ldi_disable(void);
+#endif
+
+#if defined (CONFIG_FB_S3C_NT35580)
+extern void nt35580_ldi_disable(struct s5p_lcd *);
 #endif
 
 char LCD_ON_OFF = 1 ;
@@ -1771,7 +1777,11 @@ int s3cfb_resume(struct platform_device *pdev)
 static int s3cfb_shutdown(struct platform_Device *dev)
 {
 	msleep(20);
+#ifdef CONFIG_FB_S3C_TL2796
 	tl2796_ldi_disable();
+#else 
+	nt35580_ldi_disable(lcd_1);
+#endif
 	
 	//lcd_reset low
 	s3c_gpio_setpin(GPIO_MLCD_RST, 0);

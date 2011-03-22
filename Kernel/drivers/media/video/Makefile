@@ -88,9 +88,6 @@ endif
 ifeq ($(CONFIG_VIDEO_S5KA3DFX_VICTORY),y)
 obj-$(CONFIG_VIDEO_S5KA3DFX) += victory/s5ka3dfx.o
 endif
-ifeq ($(CONFIG_VIDEO_S5KA3DFX_ATLAS),y)
-obj-$(CONFIG_VIDEO_S5KA3DFX) += atlas/s5ka3dfx.o
-endif
 
 obj-$(CONFIG_SOC_CAMERA_MT9M001)	+= mt9m001.o
 obj-$(CONFIG_SOC_CAMERA_MT9M111)	+= mt9m111.o
