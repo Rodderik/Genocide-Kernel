@@ -79,6 +79,16 @@ static u32 prevmask[KEYPAD_COLUMNS];
 
 static int in_sleep = 0;
 
+#define TIMER_DELAY_DEFAULT (3*HZ/100)
+#define TIMER_DELAY_MAX     HZ
+
+#ifdef CONFIG_KEYPAD_S3C_VICTORY_EXPORT_TIMER_DELAY
+#define TIMER_DELAY timer_delay
+static unsigned long timer_delay = TIMER_DELAY_DEFAULT;
+#else
+#define TIMER_DELAY TIMER_DELAY_DEFAULT
+#endif
+
 //static ssize_t keyshort_test(struct device *dev, struct device_attribute *attr, char *buf);
 
 //hojun_kim [
@@ -274,7 +284,7 @@ static void keypad_timer_handler(unsigned long data)
 
 
 	if (restart_timer) {
-		mod_timer(&keypad_timer,jiffies + HZ/10);
+		mod_timer(&keypad_timer,jiffies + TIMER_DELAY);
 	} else {
                 is_timer_on = FALSE;
 		del_timer(&keypad_timer);	
@@ -291,7 +301,7 @@ static irqreturn_t s3c_keypad_isr(int irq, void *dev_id)
 	writel(readl(key_base+S3C_KEYIFCON) & ~(INT_F_EN|INT_R_EN), key_base+S3C_KEYIFCON);
 
 	//keypad_timer.expires = jiffies;
-      	keypad_timer.expires = jiffies + (3 * HZ/100); // victory froyo merge nandu
+      	keypad_timer.expires = jiffies + TIMER_DELAY; // victory froyo merge nandu
 
 
 
@@ -659,6 +669,36 @@ static DEVICE_ATTR(key_pressed, S_IRUGO | S_IWUSR | S_IWOTH | S_IXOTH, keyshort_
 static DEVICE_ATTR(brightness, S_IRUGO | S_IWUSR | S_IWOTH | S_IXOTH, NULL, key_led_control);
 // nandu froyo merge
 
+#ifdef CONFIG_KEYPAD_S3C_VICTORY_EXPORT_TIMER_DELAY
+static ssize_t timer_delay_show(struct device *dev,
+                                struct device_attribute *attr, char *buf)
+{
+	return snprintf(buf, PAGE_SIZE, "%lu\n", timer_delay);
+}
+
+static ssize_t timer_delay_store(struct device *dev,
+                                 struct device_attribute *attr,
+                                 const char *buf, size_t count)
+{
+	unsigned long val;
+	int res;
+
+	if ((res = strict_strtoul(buf, 10, &val)) < 0)
+		return res;
+
+	if (val == 0 || val > TIMER_DELAY_MAX)
+		return -EINVAL;
+
+	timer_delay = val;
+
+	return count;
+}
+
+static DEVICE_ATTR(timer_delay, S_IRUGO | S_IWUSR, timer_delay_show,
+                   timer_delay_store);
+#endif
+
+
 static int __init s3c_keypad_probe(struct platform_device *pdev)
 {
 	struct resource *res, *keypad_mem, *keypad_irq;
@@ -811,7 +851,7 @@ static int __init s3c_keypad_probe(struct platform_device *pdev)
                 goto out;
         }
 
-          keypad_timer.expires = jiffies + (3 * HZ/100);
+          keypad_timer.expires = jiffies + TIMER_DELAY;
 
 
           if (is_timer_on == FALSE) {
@@ -840,7 +880,10 @@ static int __init s3c_keypad_probe(struct platform_device *pdev)
         pr_err("Failed to create device file(%s)!\n", dev_attr_brightness.attr.name);
   	}
 
-
+#ifdef CONFIG_KEYPAD_S3C_VICTORY_EXPORT_TIMER_DELAY
+	if (device_create_file(&pdev->dev, &dev_attr_timer_delay) < 0)
+		pr_err("Unable to create \"%s\".\n", dev_attr_timer_delay.attr.name);
+#endif
 	
 	return 0;
 
@@ -878,6 +921,9 @@ static int s3c_keypad_remove(struct platform_device *pdev)
 		keypad_clock = NULL;
 	}
 
+#ifdef CONFIG_KEYPAD_S3C_VICTORY_EXPORT_TIMER_DELAY
+	device_remove_file(&pdev->dev, &dev_attr_timer_delay);
+#endif
 	input_unregister_device(input_dev);
 	iounmap(key_base);
 	kfree(pdev->dev.platform_data);

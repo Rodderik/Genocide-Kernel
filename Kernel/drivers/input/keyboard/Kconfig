@@ -212,8 +212,26 @@ config KEYPAD_S3C_VICTORY
         bool "Victory S3C Keypad"
         help
         Victory Product
-endif
 
+config KEYPAD_S3C_VICTORY_EXPORT_TIMER_DELAY
+	bool "Export keypad_timer delay via sysfs"
+	depends on KEYPAD_S3C_VICTORY && SYSFS
+	default y
+	help
+	  Allows runtime configuration of the keypad_timer delay via a sysfs
+	  exported timer_delay variable.
+
+	  The current delay may be read with:
+	    cat /sys/devices/platform/s3c-keypad/timer_delay
+	  and a new delay may be set with:
+	    echo N > /sys/devices/platform/s3c-keypad/timer_delay
+	  where N is the delay in jiffies.
+
+	  A delay of "1" yields the shortest timer, and the most responsive keypad
+	  possible, whereas a delay of HZ (e.g., "256") is the longest allowed.
+	  For HZ=256, a delay of "7" (3*HZ/100) is default.
+
+endif
 
 config S3C_KEYPAD_DEBUG
 	bool "Print debug messages for S3C keypad"
