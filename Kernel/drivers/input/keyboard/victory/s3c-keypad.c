@@ -274,7 +274,7 @@ static void keypad_timer_handler(unsigned long data)
 
 
 	if (restart_timer) {
-		mod_timer(&keypad_timer,jiffies + 3 * HZ/100);
+		mod_timer(&keypad_timer,jiffies + HZ/10);
 	} else {
                 is_timer_on = FALSE;
 		del_timer(&keypad_timer);	

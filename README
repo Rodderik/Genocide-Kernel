@@ -11,6 +11,7 @@ Then refer to the README.txt on what else you need to change.
 Changelog Legend: "+" introduce addition/modification, "-" removed addition/modification, "*" changed addition/modification
 
 Changelog:
+-Keyboard patch by mkasick in preparation for updated patch
 +Refresh rate changed from 60 to 72 (slightly better framerates)
 *Voodoo Sound updated to v6
 +EC05 source merge
