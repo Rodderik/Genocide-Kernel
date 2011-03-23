@@ -56,7 +56,7 @@ loglevel 3
     insmod /lib/modules/rfs_glue.ko
     insmod /lib/modules/rfs_fat.ko
     insmod /lib/modules/jbd2.ko
-    insmod /lib/modules/ext4.ko
+#    insmod /lib/modules/ext4.ko
 # parameter block
     mkdir /mnt 0755 root root
     mkdir /mnt/.lfs 0755 root root

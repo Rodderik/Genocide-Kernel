@@ -3,7 +3,7 @@
 #
 
 # Each configuration option enables a list of files.
-
+subdir-ccflags-y += -O2
 obj-$(CONFIG_KEYPAD_S3C_VICTORY)     += s3c-keypad.o
 obj-$(CONFIG_KEYPAD_MELFAS_TOUCH_VICTORY)                += melfas-touchkey.o
 obj-$(CONFIG_KEYPAD_MELFAS_TOUCH_VICTORY)                += melfas_download.o

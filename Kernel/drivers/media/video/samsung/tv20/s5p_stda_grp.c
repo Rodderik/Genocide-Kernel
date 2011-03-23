@@ -610,7 +610,8 @@ int s5ptvfb_set_par(struct fb_info *fb)
 #endif
 	}
 
-	((struct fb_var_screeninfo) (s5ptv_status.fb->var)).bits_per_pixel =
+//	((struct fb_var_screeninfo) (s5ptv_status.fb->var)).bits_per_pixel =
+	(s5ptv_status.fb->var).bits_per_pixel = //compile fix from nullghost
 		((struct fb_var_screeninfo) (fb->var)).bits_per_pixel;
 
 	s5ptvfb_set_display_mode(&s5ptv_status);
