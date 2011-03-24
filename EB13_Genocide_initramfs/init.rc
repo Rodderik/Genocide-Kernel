@@ -841,12 +841,12 @@ oneshot
 
 #Lntinfotech
 
-service iqmsd /system/bin/iqmsd
-    disabled
+#service iqmsd /system/bin/iqmsd
+#    disabled
 
-on property:service.iq.active=1
-    start iqmsd
+#on property:service.iq.active=1
+#    start iqmsd
 
-on property:service.iq.active=0
-    stop iqmsd
+#on property:service.iq.active=0
+#    stop iqmsd
 
