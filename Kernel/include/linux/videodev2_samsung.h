@@ -224,6 +224,7 @@ enum v4l2_iso_mode {
 	ISO_400,
 	ISO_800,
 	ISO_1600,
+	ISO_FIREWORKS,
 	ISO_SPORTS,	
 	ISO_NIGHT,
 	ISO_MOVIE,
