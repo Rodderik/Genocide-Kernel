@@ -238,7 +238,7 @@ static struct s3cfb_lcd s6e63m0 = {
 	.p_width = 52,
 	.p_height = 86,
 	.bpp = 24,
-	.freq = 72, //60 //Setting refresh rate too high can lead to color/brightness issues
+	.freq = 60, //Setting refresh rate will raise max framerate but too high can lead to color/brightness issues...not recommended until we get proper documentation
 	
 	.timing = {
 		.h_fp = 16,

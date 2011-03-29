@@ -1,5 +1,5 @@
 Genocide 1.2GhzOC EC05 Kernel
-for Samsung Epic 4G (DK28 and EB13 compatible)
+for Samsung Epic 4G (EC05, DK28, and EB13 compatible)
 
 http://forum.xda-developers.com/showthread.php?t=961614
 
@@ -11,6 +11,8 @@ Then refer to the README.txt on what else you need to change.
 Changelog Legend: "+" introduce addition/modification, "-" removed addition/modification, "*" changed addition/modification
 
 Changelog:
++Conservative governor minimum frequency fix (You rock GZub https://github.com/gzub/EC05-Zub/commit/8a47c52d85d982ef035d24da293bcc046412b63e)
+-Remove refresh rate change (We need proper LCD documentation before I can support changing this)
 -Clean up github files and rename repo
 -Removed video lag & camera force close fix (Samsung fixed the camera issues for EC05)
 +Removed iqmsd service from initramfs (CIQ bad!)
