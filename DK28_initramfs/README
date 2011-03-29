@@ -1,4 +1,0 @@
-20110220
-This is the DK28 initramfs pulled from Dameon87's DK28 Dual Filesystem EXT4+RFS Kernel found at http://forum.xda-developers.com/showthread.php?t=894383
-
-This is temporary solution to keep compatibility with existing DK28 roms using RFS OR EXT4, custom boot animations, and init.d until we get EB13 OTA update AND modify the EB13 initramfs to support current rom standards.

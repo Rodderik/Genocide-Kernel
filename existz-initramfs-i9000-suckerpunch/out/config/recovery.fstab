@@ -1,6 +1,0 @@
-# mount point	fstype		device
-
-/system		ext4		/dev/block/stl9
-/cache		ext4		/dev/block/stl11
-/data		ext4		/dev/block/stl10
-tmpfs           tmpfs           /mnt/sdcard/.android_secure
