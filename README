@@ -11,6 +11,7 @@ Then refer to the README.txt on what else you need to change.
 Changelog Legend: "+" introduce addition/modification, "-" removed addition/modification, "*" changed addition/modification
 
 Changelog:
+*Voodoo Sound updated to v7
 +Conservative governor minimum frequency fix (You rock GZub https://github.com/gzub/EC05-Zub/commit/8a47c52d85d982ef035d24da293bcc046412b63e)
 -Remove refresh rate change (We need proper LCD documentation before I can support changing this)
 -Clean up github files and rename repo
