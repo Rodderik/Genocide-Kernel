@@ -11,6 +11,7 @@ Then refer to the README.txt on what else you need to change.
 Changelog Legend: "+" introduce addition/modification, "-" removed addition/modification, "*" changed addition/modification
 
 Changelog:
++Root, custom init scripts, misc tweaks (care of tanimn)
 *Voodoo Sound updated to v7
 +Conservative governor minimum frequency fix (You rock GZub https://github.com/gzub/EC05-Zub/commit/8a47c52d85d982ef035d24da293bcc046412b63e)
 -Remove refresh rate change (We need proper LCD documentation before I can support changing this)
@@ -67,8 +68,6 @@ Changelog:
 +DK28 initramfs (for pre-EB13/OTA compatibility)
 
 TODO:
-Remove/raise framerate cap (know how but not doing until other tweaks are in first)
-Tweak more voltages for better battery life (or use voltage control app)
 Fix quickboot/redirector (3 finger salute works for now) RFS works fine, EXT4 gets stuck on boot logo
 
 Please leave comments and suggestions or if you would like to help leave me a message in the thread on xda-developers (or send me a private message)
