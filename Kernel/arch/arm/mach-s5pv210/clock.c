@@ -36,18 +36,26 @@
 #define DBG(fmt...) 
 //#define DBG(fmt...) printk(fmt)
 #define CLK_DIV_CHANGE_BY_STEP 0
-#define MAX_DVFS_LEVEL  7
+#define MAX_DVFS_LEVEL 7
 extern unsigned int s5pc11x_cpufreq_index;
 
 #if 0
 /*APLL_FOUT, MPLL_FOUT, ARMCLK, HCLK_DSYS*/
-static const u32 s5p_sysout_clk_tab_1GHZ[][4] = { //added 1200MHZ entry from 1DOT2GHZ table below
+static const u32 s5p_sysout_clk_tab_1GHZ[][4] = {
+	 // APLL:1400,ARMCLK:1400,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
+	{1400* MHZ, 667 *MHZ, 1400 *MHZ, 166 *MHZ},
+	// APLL:1300,ARMCLK:1300,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
+	{1300* MHZ, 667 *MHZ, 1300 *MHZ, 166 *MHZ},
 	// APLL:1200,ARMCLK:1200,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	{1200* MHZ, 667 *MHZ, 1200 *MHZ, 166 *MHZ},
+	// APLL:1120,ARMCLK:1120,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
+	{1120* MHZ, 667 *MHZ, 1120 *MHZ, 166 *MHZ},
 	// APLL:1000,ARMCLK:1000,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	{1000* MHZ, 667 *MHZ, 1000 *MHZ, 166 *MHZ},
 	// APLL:800,ARMCLK:800,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	{800* MHZ, 667 *MHZ, 800 *MHZ, 166 *MHZ},
+	// APLL:800,ARMCLK:600,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
+	{800* MHZ, 667 *MHZ, 600 *MHZ, 166 *MHZ},
 	// APLL:800,ARMCLK:400,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	{800* MHZ, 667 *MHZ, 400 *MHZ, 166 *MHZ},
 	// APLL:800,ARMCLK:200,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
@@ -57,28 +65,36 @@ static const u32 s5p_sysout_clk_tab_1GHZ[][4] = { //added 1200MHZ entry from 1DO
 };
 
 
-#define DIV_TAB_MAX_FIELD	12
+#define DIV_TAB_MAX_FIELD 12
 
 /*div0 ratio table*/
 /*apll, a2m, HCLK_MSYS, PCLK_MSYS, HCLK_DSYS, PCLK_DSYS, HCLK_PSYS, PCLK_PSYS, MFC_DIV, G3D_DIV, MSYS source(2D, 3D, MFC)(0->apll,1->mpll), DMC0 div*/
 static const u32 s5p_sys_clk_div0_tab_1GHZ[][DIV_TAB_MAX_FIELD] = {
-	{0, 5, 5, 1, 3, 1, 4, 1, 3, 3, 0, 3}, //added entry from 1DOT2GHZ table below
-        {0, 4, 4, 1, 3, 1, 4, 1, 3, 3, 0, 3},
-        {0, 3, 3, 1, 3, 1, 4, 1, 3, 3, 0, 3},
-        {1, 3, 1, 1, 3, 1, 4, 1, 3, 3, 0, 3},
-        {3, 3, 0, 1, 3, 1, 4, 1, 3, 3, 0, 3},
-        {7, 3, 0, 0, 7, 0, 9, 0, 3, 3, 1, 4},
+        {0, 7, 7, 1, 3, 1, 4, 1, 3, 3, 0, 3}, //1400
+        {0, 6, 6, 1, 3, 1, 4, 1, 3, 3, 0, 3}, //1300
+	{0, 5, 5, 1, 3, 1, 4, 1, 3, 3, 0, 3}, //1200
+        {0, 5, 5, 1, 3, 1, 4, 1, 3, 3, 0, 3}, //1120
+        {0, 4, 4, 1, 3, 1, 4, 1, 3, 3, 0, 3}, //1000
+        {0, 3, 3, 1, 3, 1, 4, 1, 3, 3, 0, 3}, //800
+	{1, 3, 2, 1, 3, 1, 4, 1, 3, 3, 0, 3}, //600
+        {1, 3, 1, 1, 3, 1, 4, 1, 3, 3, 0, 3}, //400
+        {3, 3, 0, 1, 3, 1, 4, 1, 3, 3, 0, 3}, //200
+        {7, 3, 0, 0, 7, 0, 9, 0, 3, 3, 1, 4}, //100
 };
 
 /*pms value table*/
 /*APLL(m, p, s), MPLL(m, p, s)*/
 static const u32 s5p_sys_clk_mps_tab_1GHZ[][6] = {
-        {150, 3, 1, 667, 12, 1}, //added timer line for 1.2GHz based off S5PC110_clk_info clk_info array below
-        {125, 3, 1, 667, 12, 1},
-        {100, 3, 1, 667, 12, 1},
-        {100, 3, 1, 667, 12, 1},
-        {100, 3, 1, 667, 12, 1},
-        {100, 3, 1, 667, 12, 1},
+        {350, 6, 1, 667, 12, 1}, //1400
+        {325, 6, 1, 667, 12, 1}, //1300
+        {150, 3, 1, 667, 12, 1}, //1200
+        {150, 3, 1, 667, 12, 1}, //1120
+        {125, 3, 1, 667, 12, 1}, //1000
+        {100, 3, 1, 667, 12, 1}, //800
+        {100, 3, 1, 667, 12, 1}, //600
+        {100, 3, 1, 667, 12, 1}, //400
+        {100, 3, 1, 667, 12, 1}, //200
+        {100, 3, 1, 667, 12, 1}, //100
 };
 
 
@@ -113,93 +129,159 @@ static const u32 s5p_sys_clk_div0_tab_1DOT2GHZ[][DIV_TAB_MAX_FIELD] = {
 #endif
 
 struct S5PC110_clk_info {
-	u32	armclk;
-	u32 	apllout;
-	u32 	mpllout;
-	u32	apll_mps;
-	u32	mpll_mps;
-	u32	msys_div0;
-	u32	psys_dsys_div0;
-	u32	div2val;
-	u32	dmc0_div6;
+u32 armclk;
+u32 apllout;
+u32 mpllout;
+u32 apll_mps;
+u32 mpll_mps;
+u32 msys_div0;
+u32 psys_dsys_div0;
+u32 div2val;
+u32 dmc0_div6;
 };
 
+/* Reference
+1600MHz CPU 200MHz GPU 1400mV
+1552MHz CPU 194MHz GPU 1375mV
+1504MHz CPU 188MHz GPU 1375mV
+1464MHz CPU 183MHz GPU 1325mV
+1456MHz CPU 208MHz GPU 1325mV
+1400MHz CPU 200MHz GPU 1300mV
+1344MHz CPU 192MHz GPU 1300mV
+1288MHz CPU 184MHz GPU 1300mV
+1200MHz CPU 200MHz GPU 1300mV
+1000MHz CPU 200MHz GPU 1275mV
+800MHz CPU 200MHz GPU 1200mV
+400MHz CPU 200MHz GPU 1050mV
+200MHz CPU 200MHz GPU 950mV
+100MHz CPU 100MHz GPU 950mV
 
-struct S5PC110_clk_info clk_info[] = { //commented out if statement so it wouldn't get skipped
-//#if USE_1DOT2GHZ
-{
+HCLK_MSYS = ARMCLK / (HCLK_MSYS_RATIO + 1)
+PCLK_MSYS = HCLK_MSYS / (PCLK_MSYS_RATIO + 1)
+*/
+
+
+struct S5PC110_clk_info clk_info[] = {
+	{
+	// APLL:1400,ARMCLK:1400,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
+	.armclk = 1400* MHZ,
+	.apllout = 1400* MHZ,
+	.apll_mps = ((350<<16)|(6<<8)|1),
+	.msys_div0 = (0|(6<<4)|(6<<8)|(1<<12)),
+	.mpllout = 667* MHZ,
+	.mpll_mps = ((667<<16)|(12<<8)|(1)),
+	.psys_dsys_div0 = ((3<<16)|(1<<20)|(4<<24)|(1<<28)),
+	.div2val = ((3<<0)|(3<<4)|(3<<8)),
+	.dmc0_div6 = (3<<28),
+	},
+	{
+	// APLL:1300,ARMCLK:1300,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
+	.armclk = 1300* MHZ,
+	.apllout = 1300* MHZ,
+	.apll_mps = ((325<<16)|(6<<8)|1),
+	.msys_div0 = (0|(6<<4)|(6<<8)|(1<<12)),
+	.mpllout = 667* MHZ,
+	.mpll_mps = ((667<<16)|(12<<8)|(1)),
+	.psys_dsys_div0 = ((3<<16)|(1<<20)|(4<<24)|(1<<28)),
+	.div2val = ((3<<0)|(3<<4)|(3<<8)),
+	.dmc0_div6 = (3<<28),
+	},
+	{
 	// APLL:1200,ARMCLK:1200,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
-	.armclk		=	1200* MHZ,
-	.apllout	=	1200* MHZ,
-	.apll_mps	=	((150<<16)|(3<<8)|1),
-	.msys_div0	=	(0|(5<<4)|(5<<8)|(1<<12)),
-	.mpllout	=	667* MHZ,
-	.mpll_mps	=	((667<<16)|(12<<8)|(1)),
-	.psys_dsys_div0 =	((3<<16)|(1<<20)|(4<<24)|(1<<28)),
-	.div2val	=	((3<<0)|(3<<4)|(3<<8)),
-	.dmc0_div6 	=	(3<<28),
-},
-//#endif// A extra entry for 1200MHZ level 
-{
+	.armclk = 1200* MHZ,
+	.apllout = 1200* MHZ,
+	.apll_mps = ((300<<16)|(6<<8)|1),
+	.msys_div0 = (0|(6<<4)|(6<<8)|(1<<12)),
+	.mpllout = 667* MHZ,
+	.mpll_mps = ((667<<16)|(12<<8)|(1)),
+	.psys_dsys_div0 = ((3<<16)|(1<<20)|(4<<24)|(1<<28)),
+	.div2val = ((3<<0)|(3<<4)|(3<<8)),
+	.dmc0_div6 = (3<<28),
+	},
+	{
+	// APLL:1120,ARMCLK:1120,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
+	.armclk = 1120* MHZ,
+	.apllout = 1120* MHZ,
+	.apll_mps = ((280<<16)|(6<<8)|1),
+	.msys_div0 = (0|(6<<4)|(6<<8)|(1<<12)),
+	.mpllout = 667* MHZ,
+	.mpll_mps = ((667<<16)|(12<<8)|(1)),
+	.psys_dsys_div0 = ((3<<16)|(1<<20)|(4<<24)|(1<<28)),
+	.div2val = ((3<<0)|(3<<4)|(3<<8)),
+	.dmc0_div6 = (3<<28),
+	},
+	{
 	// APLL:1000,ARMCLK:1000,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
-	.armclk		=	1000* MHZ,
-	.apllout	=	1000* MHZ,
-	.apll_mps	=	((125<<16)|(3<<8)|1),
-	.msys_div0	=	(0|(4<<4)|(4<<8)|(1<<12)),
-	.mpllout	=	667* MHZ,
-	.mpll_mps	=	((667<<16)|(12<<8)|(1)),
-	.psys_dsys_div0 =	((3<<16)|(1<<20)|(4<<24)|(1<<28)),
-	.div2val	=	((3<<0)|(3<<4)|(3<<8)),
-	.dmc0_div6 	=	(3<<28),
-},
-{
+	.armclk = 1000* MHZ,
+	.apllout = 1000* MHZ,
+	.apll_mps = ((250<<16)|(6<<8)|1),
+	.msys_div0 = (0|(4<<4)|(4<<8)|(1<<12)),
+	.mpllout = 667* MHZ,
+	.mpll_mps = ((667<<16)|(12<<8)|(1)),
+	.psys_dsys_div0 = ((3<<16)|(1<<20)|(4<<24)|(1<<28)),
+	.div2val = ((3<<0)|(3<<4)|(3<<8)),
+	.dmc0_div6 = (3<<28),
+	},
+	{
 	// APLL:800,ARMCLK:800,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
-	.armclk		=	800* MHZ,
-	.apllout	=	800* MHZ,
-	.apll_mps	=	((100<<16)|(3<<8)|1),
-	.msys_div0	=	(0|(3<<4)|(3<<8)|(1<<12)),
-	.mpllout	=	667* MHZ,
-	.mpll_mps	=	((667<<16)|(12<<8)|(1)),
-	.psys_dsys_div0 =	((3<<16)|(1<<20)|(4<<24)|(1<<28)),
-	.div2val	=	((3<<0)|(3<<4)|(3<<8)),
-	.dmc0_div6 	=	(3<<28),
-},
-{
+	.armclk = 800* MHZ,
+	.apllout = 800* MHZ,
+	.apll_mps = ((200<<16)|(6<<8)|1),
+	.msys_div0 = (0|(3<<4)|(3<<8)|(1<<12)),
+	.mpllout = 667* MHZ,
+	.mpll_mps = ((667<<16)|(12<<8)|(1)),
+	.psys_dsys_div0 = ((3<<16)|(1<<20)|(4<<24)|(1<<28)),
+	.div2val = ((3<<0)|(3<<4)|(3<<8)),
+	.dmc0_div6 = (3<<28),
+	},
+	{
+	// APLL:800,ARMCLK:600,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
+	.armclk = 600* MHZ,
+	.apllout = 800* MHZ,
+	.apll_mps = ((200<<16)|(6<<8)|1),
+	.msys_div0 = (0|(3<<4)|(3<<8)|(1<<12)),
+	.mpllout = 667* MHZ,
+	.mpll_mps = ((667<<16)|(12<<8)|(1)),
+	.psys_dsys_div0 = ((3<<16)|(1<<20)|(4<<24)|(1<<28)),
+	.div2val = ((3<<0)|(3<<4)|(3<<8)),
+	.dmc0_div6 = (3<<28),
+	},
+	{
 	// APLL:800,ARMCLK:400,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
-	.armclk		=	400* MHZ,
-	.apllout	=	800* MHZ,
-	.apll_mps	=	((100<<16)|(3<<8)|1),
-	.msys_div0	=	(1|(3<<4)|(1<<8)|(1<<12)),
-	.mpllout	=	667* MHZ,
-	.mpll_mps	=	((667<<16)|(12<<8)|(1)),
-	.psys_dsys_div0 =	((3<<16)|(1<<20)|(4<<24)|(1<<28)),
-	.div2val	=	((3<<0)|(3<<4)|(3<<8)),
-	.dmc0_div6 	=	(3<<28),
-},
-{
+	.armclk = 400* MHZ,
+	.apllout = 800* MHZ,
+	.apll_mps = ((200<<16)|(6<<8)|1),
+	.msys_div0 = (1|(3<<4)|(1<<8)|(1<<12)),
+	.mpllout = 667* MHZ,
+	.mpll_mps = ((667<<16)|(12<<8)|(1)),
+	.psys_dsys_div0 = ((3<<16)|(1<<20)|(4<<24)|(1<<28)),
+	.div2val = ((3<<0)|(3<<4)|(3<<8)),
+	.dmc0_div6 = (3<<28),
+	},
+	{
 	// APLL:800,ARMCLK:200,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
-	.armclk		=	200* MHZ,
-	.apllout	=	800* MHZ,
-	.apll_mps	=	((100<<16)|(3<<8)|1),
-	.msys_div0	=	(3|(3<<4)|(0<<8)|(1<<12)),
-	.mpllout	=	667* MHZ,
-	.mpll_mps	=	((667<<16)|(12<<8)|(1)),
-	.psys_dsys_div0 =	((3<<16)|(1<<20)|(4<<24)|(1<<28)),
-	.div2val	=	((3<<0)|(3<<4)|(3<<8)),
-	.dmc0_div6 	=	(3<<28),
-},
-{
+	.armclk = 200* MHZ,
+	.apllout = 800* MHZ,
+	.apll_mps = ((200<<16)|(6<<8)|1),
+	.msys_div0 = (3|(3<<4)|(0<<8)|(1<<12)),
+	.mpllout = 667* MHZ,
+	.mpll_mps = ((667<<16)|(12<<8)|(1)),
+	.psys_dsys_div0 = ((3<<16)|(1<<20)|(4<<24)|(1<<28)),
+	.div2val = ((3<<0)|(3<<4)|(3<<8)),
+	.dmc0_div6 = (3<<28),
+	},
+	{
 	// APLL:800,ARMCLK:100,HCLK_MSYS:100,MPLL:667,HCLK_DSYS:83,HCLK_PSYS:66,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
-	.armclk		=	100* MHZ,
-	.apllout	=	800* MHZ,
-	.apll_mps	=	((100<<16)|(3<<8)|1),
-	.msys_div0	=	(7|(3<<4)|(0<<8)|(0<<12)),
-	.mpllout	=	667* MHZ,
-	.mpll_mps	=	((667<<16)|(12<<8)|(1)),
-	.psys_dsys_div0 =	((7<<16)|(0<<20)|(9<<24)|(0<<28)),
-	.div2val	=	((3<<0)|(3<<4)|(3<<8)),
-	.dmc0_div6 	=	(7<<28),
-}
+	.armclk = 100* MHZ,
+	.apllout = 800* MHZ,
+	.apll_mps = ((200<<16)|(6<<8)|1),
+	.msys_div0 = (7|(3<<4)|(0<<8)|(0<<12)),
+	.mpllout = 667* MHZ,
+	.mpll_mps = ((667<<16)|(12<<8)|(1)),
+	.psys_dsys_div0 = ((7<<16)|(0<<20)|(9<<24)|(0<<28)),
+	.div2val = ((3<<0)|(3<<4)|(3<<8)),
+	.dmc0_div6 = (7<<28),
+	}
 };
 
 #if 0

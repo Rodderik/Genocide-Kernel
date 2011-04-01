@@ -32,11 +32,17 @@ enum perf_level {
 	L5,
 	L6,
 	L7,
+	L8,
+	L9,
 };
 
 enum freq_level_states {
+	LEV_1400MHZ,
+	LEV_1300MHZ,
 	LEV_1200MHZ,
+	LEV_1120MHZ,
 	LEV_1000MHZ,
+	LEV_600MHZ,
 	LEV_800MHZ,
 	LEV_400MHZ,
 	LEV_200MHZ,
