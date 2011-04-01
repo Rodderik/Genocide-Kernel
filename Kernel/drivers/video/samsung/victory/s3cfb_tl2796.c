@@ -90,7 +90,7 @@ extern void init_mdnie_class(void);
 
 static struct s5p_lcd lcd;
 
-#if !defined(CONFIG_ARIES_NTT)
+//#if !defined(CONFIG_ARIES_NTT)
 static const unsigned short *p22Gamma_set[] = {        
                       
 	s6e63m0_22gamma_30cd,//0                               
@@ -121,7 +121,34 @@ static const unsigned short *p22Gamma_set[] = {
 };                                             
                                                
                                                 
-static const unsigned short *p19Gamma_set[] = {        
+static const unsigned short *p19Gamma_set[] = {  
+#ifdef CONFIG_VOODOO_COLOR_GAMMA_22_ONLY
+	s6e63m0_22gamma_30cd,//0                               
+	s6e63m0_22gamma_40cd,                         
+	s6e63m0_22gamma_70cd,                         
+	s6e63m0_22gamma_90cd,                         
+	s6e63m0_22gamma_100cd,                     
+	s6e63m0_22gamma_110cd,  //5                      
+	s6e63m0_22gamma_120cd,                        
+	s6e63m0_22gamma_130cd,                        
+	s6e63m0_22gamma_140cd,	                      
+	s6e63m0_22gamma_150cd,                    
+	s6e63m0_22gamma_160cd,   //10                     
+	s6e63m0_22gamma_170cd,                        
+	s6e63m0_22gamma_180cd,                        
+	s6e63m0_22gamma_190cd,	                      
+	s6e63m0_22gamma_200cd,                    
+	s6e63m0_22gamma_210cd,  //15                      
+	s6e63m0_22gamma_220cd,                        
+	s6e63m0_22gamma_230cd,                        
+	s6e63m0_22gamma_240cd,                        
+	s6e63m0_22gamma_250cd,                   
+	s6e63m0_22gamma_260cd,  //20                       
+	s6e63m0_22gamma_270cd,                        
+	s6e63m0_22gamma_280cd,                        
+	s6e63m0_22gamma_290cd,                        
+	s6e63m0_22gamma_300cd,//24                    
+#else      
 	s6e63m0_19gamma_30cd,	//0
 	//s6e63m0_19gamma_50cd,                         
 	s6e63m0_19gamma_40cd,     
@@ -149,7 +176,7 @@ static const unsigned short *p19Gamma_set[] = {
 	s6e63m0_19gamma_280cd,
 	s6e63m0_19gamma_290cd,
 	s6e63m0_19gamma_300cd,	//24
-}; 
+/*}; 
 #else // Modify NTTS1
 static const unsigned short *p22Gamma_set[] = {        
 	s6e63m0_22gamma_30cd,	 //0                    
@@ -206,8 +233,9 @@ static const unsigned short *p19Gamma_set[] = {
 	s6e63m0_19gamma_260cd,
 	s6e63m0_19gamma_280cd,
 	s6e63m0_19gamma_300cd, 	//24
-}; 
+}; */
 #endif
+};
 
 #ifdef CONFIG_FB_S3C_TL2796_ACL
 static const unsigned short *ACL_cutoff_set[] = {

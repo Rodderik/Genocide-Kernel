@@ -11,6 +11,7 @@ Then refer to the README.txt on what else you need to change.
 Changelog Legend: "+" introduce addition/modification, "-" removed addition/modification, "*" changed addition/modification
 
 Changelog:
++Voodoo Color by supercurio (http://perso.curio.be/android/Voodoo_color_mDNIe_GT-I9000.patch)
 *New Overclocks and sysfs undervolting support (rasdeep, existz, tanimn, gzub, and thomasskull666...pulling my hair out over this one)
 +Root, custom init scripts, misc tweaks (care of tanimn)
 *Voodoo Sound updated to v7
