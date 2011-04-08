@@ -230,8 +230,20 @@ config CPU_FREQ_GOV_SMARTASS
 	tristate "'smartass' cpufreq governor"
 	depends on CPU_FREQ
 	help
-	  'smartass' - a "smart" optimized governor for the hero!
+	  'smartass' - a "smart" optimized governor!
 
 	  If in doubt, say N.
+
+config CPU_HUMMINGBIRD_MIN_FREQ
+	int "Samsung S5PC11X (Hummingbird) Min Freq"
+	default 200000
+	help
+	 The default minimum freq for Samsung S5PC11X (Hummingbird) SoCs
+
+config CPU_HUMMINGBIRD_MAX_FREQ
+	int "Samsung S5PC11X (Hummingbird) Max Freq"
+	default 1000000
+	help
+	 The default maximum freq for Samsung S5PC11X (Hummingbird) SoCs
 
 endif	# CPU_FREQ
