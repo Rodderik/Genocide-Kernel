@@ -1,4 +1,4 @@
-Genocide 1.2GhzOC EC05 Kernel
+Genocide 1.4GhzOC EC05 Kernel
 for Samsung Epic 4G (EC05, DK28, and EB13 compatible)
 
 http://forum.xda-developers.com/showthread.php?t=961614
@@ -11,6 +11,8 @@ Then refer to the README.txt on what else you need to change.
 Changelog Legend: "+" introduce addition/modification, "-" removed addition/modification, "*" changed addition/modification
 
 Changelog:
++keytimer.sh script and mods from DRockstar
+*initramfs changes (persistant Superuser.apk)
 
 1.0
 +Voodoo Color by supercurio (http://perso.curio.be/android/Voodoo_color_mDNIe_GT-I9000.patch)

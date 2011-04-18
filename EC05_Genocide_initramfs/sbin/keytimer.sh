@@ -1,0 +1,37 @@
+#!/system/bin/sh
+# keytimer shortcut script by DRockstar
+
+usage()
+{
+echo "keytimer: shortcut for Epic 4G keyboard response time"
+echo "usage: keytimer <number>, 7 is default, 1 - 16 accepted"
+}
+
+error()
+{
+usage
+echo "error: $1"
+exit
+}
+
+mount -o remount,rw / /
+
+if [ "$1" = "" ]; then
+timer="`cat /sys/devices/platform/s3c-keypad/timer_delay`"
+usage
+echo "current keytimer value is $timer"
+exit
+fi
+
+case $1 in *[!0-9]*)
+error "input is not a positive number"
+esac
+
+if [ $1 -gt 16 ]; then
+error "only numbers 1 - 16 are accepted"
+fi
+
+echo $1 > /sys/devices/platform/s3c-keypad/timer_delay
+echo $1 > /data/local/timer_delay
+
+mount -o remount,ro / /

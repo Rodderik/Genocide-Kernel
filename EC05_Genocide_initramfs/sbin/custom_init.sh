@@ -23,6 +23,14 @@ echo 1000000 > /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq
 
 echo conservative > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
+# keyboard patch sysfs call 5 for snappy keyboard performance (range: 1-16 default: 7)
+# Thanks DRockstar
+
+if [ ! -f "/data/local/timer_delay" ]; then
+  echo 5 > /data/local/timer_delay
+fi
+cat /data/local/timer_delay > /sys/devices/platform/s3c-keypad/timer_delay
+
 # Enable init.d support
 
 if [ -d /system/etc/init.d ]
@@ -61,17 +69,23 @@ if [ ! -f "/system/etc/group" ]; then
 	chmod 0666 /system/etc/group
 fi
 
-#ensure Superuser is installed to protect root access
+#Check and setup Superuser if missing
 
-# if [ ! -f "/system/app/Superuser.apk" -a ! -f "/data/app/Superuser.apk" ]; then
-# 	cp /sbin/Superuser.apk /system/app/Superuser.apk
-# fi
+ if [ ! -f "/system/app/Superuser.apk" ] && [ ! -f "/data/app/Superuser.apk" ] && [[ ! -f "/data/app/com.noshufou.android.su"* ]]; then
+	if [ -f "/system/app/Asphalt5_DEMO_ANMP_Samsung_D700_Sprint_ML.apk" ]; then
+		rm /system/app/Asphalt5_DEMO_ANMP_Samsung_D700_Sprint_ML.apk
+	fi
+	if [ -f "/system/app/FreeHDGameDemos.apk" ]; then
+		rm /system/app/FreeHDGameDemos.apk
+	fi
+ 	busybox cp /support/Superuser.apk /system/app/Superuser.apk
+ fi
 
 # fix busybox DNS while system is read-write
 
 if [ ! -f "/system/etc/resolv.conf" ]; then
 	echo "nameserver 8.8.8.8" >> /system/etc/resolv.conf
-	echo "nameserver 8.8.8.4" >> /system/etc/resolv.conf
+	echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
 fi 
 sync
 
