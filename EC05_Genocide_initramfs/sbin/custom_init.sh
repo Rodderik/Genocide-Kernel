@@ -23,14 +23,6 @@ echo 1000000 > /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq
 
 echo conservative > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
-# keyboard patch sysfs call 5 for snappy keyboard performance (range: 1-16 default: 7)
-# Thanks DRockstar
-
-if [ ! -f "/data/local/timer_delay" ]; then
-  echo 5 > /data/local/timer_delay
-fi
-cat /data/local/timer_delay > /sys/devices/platform/s3c-keypad/timer_delay
-
 # Enable init.d support
 
 if [ -d /system/etc/init.d ]
@@ -38,6 +30,14 @@ then
 	logwrapper busybox run-parts /system/etc/init.d
 fi
 sync
+
+# keyboard patch sysfs call 5 for snappy keyboard performance (range: 1-16 default: 7)
+# Thanks DRockstar
+
+if [ ! -f "/data/local/timer_delay" ]; then
+  echo 5 > /data/local/timer_delay
+fi
+cat /data/local/timer_delay > /sys/devices/platform/s3c-keypad/timer_delay
 
 # Fix screwy ownerships
 
