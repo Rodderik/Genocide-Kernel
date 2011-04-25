@@ -4602,9 +4602,6 @@ void wm8994_set_fmradio_common(struct snd_soc_codec *codec, int onoff)
 			wm8994_write(codec, WM8994_INPUT_MIXER_4, val);
 		}
 	}
-#ifdef CONFIG_SND_VOODOO_FM
- voodoo_hook_fmradio_headset();
-#endif
 }
 
 void wm8994_set_fmradio_headset(struct snd_soc_codec *codec)
@@ -4856,10 +4853,6 @@ void wm8994_set_fmradio_headset(struct snd_soc_codec *codec)
 
 	//DAC1 Unmute
 	wm8994_write(codec, WM8994_AIF1_DAC1_FILTERS_1, 0x0000);
-
-#ifdef CONFIG_SND_VOODOO_FM
- voodoo_hook_fmradio_headset();
-#endif
 
 	val = wm8994_read(codec, WM8994_AIF2_DAC_FILTERS_1);	//520 : 0
 	val &= ~(WM8994_AIF2DAC_MUTE_MASK);
@@ -5119,10 +5112,6 @@ void wm8994_set_fmradio_headset_mix(struct snd_soc_codec *codec)
 		val &= ~(WM8994_DAC1L_MUTE_MASK | WM8994_DAC1L_VOL_MASK);
 		val |= (WM8994_DAC1_VU | TUNING_DAC1L_VOL);
 		wm8994_write(codec,WM8994_DAC1_LEFT_VOLUME ,val);
-
-#ifdef CONFIG_SND_VOODOO_FM
- voodoo_hook_fmradio_headset();
-#endif
 
 		//Unmute and volume ctrl RightDAC
 		val = wm8994_read(codec, WM8994_DAC1_RIGHT_VOLUME );
@@ -5466,10 +5455,6 @@ void wm8994_set_fmradio_speaker_headset_mix(struct snd_soc_codec *codec)
 	wm8994_write(codec,WM8994_DC_SERVO_1, val );
 
 	msleep(20);
-
-#ifdef CONFIG_SND_VOODOO_FM
- voodoo_hook_fmradio_headset();
-#endif
 
 	//* Headphone Output
 		// Intermediate HP settings
