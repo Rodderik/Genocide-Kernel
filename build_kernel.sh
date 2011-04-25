@@ -35,6 +35,7 @@ ANDROID_OUT_DIR=`pwd`/Android/out/target/product/SPH-D700
 export PRJROOT=$PWD
 export PROJECT_NAME
 export HW_BOARD_REV
+export KBUILD_BUILD_VERSION="Genocide_1.0.1a"
 
 export LD_LIBRARY_PATH=.:${TOOLCHAIN}/../lib
 
@@ -44,6 +45,7 @@ echo "************************************************************"
 echo "PRJROOT=$PRJROOT"
 echo "PROJECT_NAME=$PROJECT_NAME"
 echo "HW_BOARD_REV=$HW_BOARD_REV"
+echo "KBUILD_BUILD_VERSION=$KBUILD_BUILD_VERSION"
 echo "************************************************************"
 
 BUILD_MODULE()
