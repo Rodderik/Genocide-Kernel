@@ -11,6 +11,8 @@ Then refer to the README.txt on what else you need to change.
 Changelog Legend: "+" introduce addition/modification, "-" removed addition/modification, "*" changed addition/modification
 
 Changelog:
++Kernel splash image was disabled after DK28 - Re-enabled (Stored in Kernel/drivers/video/samsung/logo_rgb24_wvga_portrait_victory.h)
+*Add KBUILD_BUILD_VERSION to build.sh
 +keytimer script and mods from DRockstar http://forum.xda-developers.com/showthread.php?p=13017148
 *initramfs changes (persistant Superuser.apk)
 
