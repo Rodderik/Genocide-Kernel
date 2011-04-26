@@ -1178,7 +1178,7 @@ int s3cfb_register_framebuffer(void)
 		if (i == pdata->default_win) {
 			s3cfb_check_var(&fbdev->fb[i]->var, fbdev->fb[i]);
 			s3cfb_set_par(fbdev->fb[i]);
-			//s3cfb_draw_logo(fbdev->fb[i]);
+			s3cfb_draw_logo(fbdev->fb[i]); //Rodderik (Re-enable kernel splash)
 		}
 #endif	/* CONFIG_MACH_S5PC110_ARIES */
 #endif	/* CONFIG_FRAMEBUFFER_CONSOLE */
