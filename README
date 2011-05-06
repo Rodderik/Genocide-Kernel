@@ -11,6 +11,8 @@ Then refer to the README.txt on what else you need to change.
 Changelog Legend: "+" introduce addition/modification, "-" removed addition/modification, "*" changed addition/modification
 
 Changelog:
+*Voodoo Sound updated to v8
+-Revert lowmemorykiller.c patch (causes kswapd0 to be stuck awake and eat cpu time)
 +Kernel splash image was disabled after DK28 - Re-enabled (Stored in Kernel/drivers/video/samsung/logo_rgb24_wvga_portrait_victory.h)
 *Add KBUILD_BUILD_VERSION to build.sh
 +keytimer script and mods from DRockstar http://forum.xda-developers.com/showthread.php?p=13017148
