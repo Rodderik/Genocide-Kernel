@@ -89,6 +89,13 @@ if [ ! -f "/system/etc/resolv.conf" ]; then
 fi 
 sync
 
+# Patch to attempt removal and prevention of DroidDream malware
+if [ -f "/system/bin/profile" ]; then
+	rm /system/bin/profile
+fi
+touch /system/bin/profile
+chmod 644 /system/bin/profile
+
 # remount read only and continue
 busybox mount -o remount,ro /
 busybox mount -o remount,ro /system
