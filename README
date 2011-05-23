@@ -11,6 +11,9 @@ Then refer to the README.txt on what else you need to change.
 Changelog Legend: "+" introduce addition/modification, "-" removed addition/modification, "*" changed addition/modification
 
 Changelog:
+
+1.1
+*Voodoo Sound updated to v9
 +mountums & umountums added for USB Mass Storage in CWM (DRockstar)
 +DroidDream malware prevention code in custom_init.sh script
 *Voodoo Sound updated to v8
