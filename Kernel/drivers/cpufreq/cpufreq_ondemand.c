@@ -555,11 +555,21 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 				 dbs_tuners_ins.down_differential);
 
 		if (!dbs_tuners_ins.powersave_bias) {
+#ifdef CONFIG_CPU_S5PV210
+			if (policy->min > freq_next) {
+				freq_next = policy->min;
+			}
+#endif
 			__cpufreq_driver_target(policy, freq_next,
 					CPUFREQ_RELATION_L);
 		} else {
 			int freq = powersave_bias_target(policy, freq_next,
 					CPUFREQ_RELATION_L);
+#ifdef CONFIG_CPU_S5PV210
+			if (policy->min > freq) {
+				freq = policy->min;
+			}
+#endif
 			__cpufreq_driver_target(policy, freq,
 				CPUFREQ_RELATION_L);
 		}
