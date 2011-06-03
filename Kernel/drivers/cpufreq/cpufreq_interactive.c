@@ -196,6 +196,11 @@ static void cpufreq_interactive_freq_change_time_work(struct work_struct *work)
 					CPUFREQ_RELATION_H);
 		} else {
 			target_freq = cpufreq_interactive_calc_freq(cpu);
+#ifdef CONFIG_CPU_S5PV210
+			if (policy->min > target_freq) {
+				target_freq = policy->min;
+			}
+#endif
 			__cpufreq_driver_target(policy, target_freq,
 							CPUFREQ_RELATION_L);
 		}
