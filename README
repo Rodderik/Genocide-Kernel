@@ -13,6 +13,8 @@ Changelog Legend: "+" introduce addition/modification, "-" removed addition/modi
 Changelog:
 
 1.1
++interactive governor + fixes
+*ondemand governor fix to not scale below min frequency (nubecoder)
 *Voodoo Sound updated to v9
 +mountums & umountums added for USB Mass Storage in CWM (DRockstar)
 +DroidDream malware prevention code in custom_init.sh script
