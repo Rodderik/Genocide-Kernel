@@ -236,7 +236,7 @@ config CPU_FREQ_GOV_SMARTASS
 
 config SMARTASS_SLEEP_MAX
 	int "Sleep Max Freq"
-	default 245000
+	default 800000
 	depends on CPU_FREQ_GOV_SMARTASS
 	help
 	  When sleep_max_freq>0 the frequency when suspended will be capped
@@ -246,7 +246,7 @@ config SMARTASS_SLEEP_MAX
 
 config SMARTASS_SLEEP_WAKEUP
 	int "Sleep Wakeup Freq"
-	default CPU_FREQ_MAX_FREQ
+	default 1000000
 	depends on CPU_FREQ_GOV_SMARTASS
 	help
 	  The frequency to set when waking up from sleep.
@@ -261,7 +261,7 @@ config SMARTASS_DEFAULT_SAMPLE_RATE_JIFFIES
 
 config SMARTASS_DEFAULT_RAMP_UP_STEP
 	int "Default ramp up step"
-	default 38400
+	default 500000
 	depends on CPU_FREQ_GOV_SMARTASS
 	help
 	  Freqeuncy delta when ramping up.
@@ -269,7 +269,7 @@ config SMARTASS_DEFAULT_RAMP_UP_STEP
 
 config SMARTASS_DEFAULT_RAMP_DOWN_STEP
 	int "Default ramp down step"
-	default 38400
+	default 500000
 	depends on CPU_FREQ_GOV_SMARTASS
 	help
 	  Max freqeuncy delta when ramping down. zero disables.
@@ -304,7 +304,7 @@ config SMARTASS_DEFAULT_DOWN_RATE_US
 
 config SMARTASS_DEFAULT_UP_MIN_FREQ
 	int "Default up minimum frequency"
-	default CPU_FREQ_MAX_FREQ
+	default 1000000
 	depends on CPU_FREQ_GOV_SMARTASS
 	help
 	  When ramping up frequency with no idle cycles jump to at least this frequency.
@@ -312,23 +312,12 @@ config SMARTASS_DEFAULT_UP_MIN_FREQ
 
 config SMARTASS_DEFAULT_AWAKE_MIN_FREQ
 	int "Default awake minimum frequency"
-  default 200000
+	default 200000
 	depends on CPU_FREQ_GOV_SMARTASS
 	help
 	  When awake_min_freq>0 the frequency when not suspended will not
 	  go below this frequency.
 	  Set awake_min_freq=0 to disable this behavior.
 
-config CPU_HUMMINGBIRD_MIN_FREQ
-	int "Samsung S5PC11X (Hummingbird) Min Freq"
-	default 200000
-	help
-	 The default minimum freq for Samsung S5PC11X (Hummingbird) SoCs
-
-config CPU_HUMMINGBIRD_MAX_FREQ
-	int "Samsung S5PC11X (Hummingbird) Max Freq"
-	default 1000000
-	help
-	 The default maximum freq for Samsung S5PC11X (Hummingbird) SoCs
-
 endif	# CPU_FREQ
+
