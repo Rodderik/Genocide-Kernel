@@ -746,6 +746,7 @@ static struct early_suspend smartass_power_suspend = {
 
 static int __init cpufreq_smartass_init(void)
 {
+	int err;
         unsigned int i;
         struct smartass_info_s *this_smartass;
         debug_mask = 0;
@@ -784,13 +785,26 @@ static int __init cpufreq_smartass_init(void)
 
         /* Scale up is high priority */
         up_wq = create_rt_workqueue("ksmartass_up");
+        if (!up_wq) {
+		printk(KERN_ERR "Creation of ksmartass_up failed\n");
+		return -EFAULT;
+	}
         down_wq = create_workqueue("ksmartass_down");
+        if (!down_wq) {
+		printk(KERN_ERR "Creation of ksmartass_down failed\n");
+		return -EFAULT;
+	}
 
         INIT_WORK(&freq_scale_work, cpufreq_smartass_freq_change_time_work);
 
         register_early_suspend(&smartass_power_suspend);
 
-        return cpufreq_register_governor(&cpufreq_gov_smartass);
+	err = cpufreq_register_governor(&cpufreq_gov_smartass);
+	if (err) {
+		destroy_workqueue(up_wq);
+		destroy_workqueue(down_wq);
+	}
+	return err;
 }
 
 #ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_SMARTASS
