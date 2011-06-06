@@ -234,6 +234,91 @@ config CPU_FREQ_GOV_SMARTASS
 
 	  If in doubt, say N.
 
+config SMARTASS_SLEEP_MAX
+	int "Sleep Max Freq"
+	default 245000
+	depends on CPU_FREQ_GOV_SMARTASS
+	help
+	  When sleep_max_freq>0 the frequency when suspended will be capped
+	  by this frequency. Also will wake up at max frequency of policy
+	  to minimize wakeup issues.
+	  Set sleep_max_freq=0 to disable this behavior.
+
+config SMARTASS_SLEEP_WAKEUP
+	int "Sleep Wakeup Freq"
+	default CPU_FREQ_MAX_FREQ
+	depends on CPU_FREQ_GOV_SMARTASS
+	help
+	  The frequency to set when waking up from sleep.
+	  When sleep_max_freq=0 this will have no effect.
+
+config SMARTASS_DEFAULT_SAMPLE_RATE_JIFFIES
+	int "Default sample rate jiffies"
+	default 2
+	depends on CPU_FREQ_GOV_SMARTASS
+	help
+	  Sampling rate, I highly recommend to leave it at 2.
+
+config SMARTASS_DEFAULT_RAMP_UP_STEP
+	int "Default ramp up step"
+	default 38400
+	depends on CPU_FREQ_GOV_SMARTASS
+	help
+	  Freqeuncy delta when ramping up.
+	  zero disables causes to always jump straight to max frequency.
+
+config SMARTASS_DEFAULT_RAMP_DOWN_STEP
+	int "Default ramp down step"
+	default 38400
+	depends on CPU_FREQ_GOV_SMARTASS
+	help
+	  Max freqeuncy delta when ramping down. zero disables.
+
+config SMARTASS_DEFAULT_MAX_CPU_LOAD
+	int "Default max cpu load"
+	default 50
+	depends on CPU_FREQ_GOV_SMARTASS
+	help
+	  CPU freq will be increased if measured load > max_cpu_load;
+
+config SMARTASS_DEFAULT_MIN_CPU_LOAD
+	int "Default min cpu load"
+	default 25
+	depends on CPU_FREQ_GOV_SMARTASS
+	help
+	  CPU freq will be decreased if measured load < min_cpu_load;
+
+config SMARTASS_DEFAULT_UP_RATE_US
+	int "Default up rate in us"
+	default 24000
+	depends on CPU_FREQ_GOV_SMARTASS
+	help
+	  The minimum amount of time to spend at a frequency before we can ramp up.
+
+config SMARTASS_DEFAULT_DOWN_RATE_US
+	int "Default down rate in us"
+	default 49000
+	depends on CPU_FREQ_GOV_SMARTASS
+	help
+	  The minimum amount of time to spend at a frequency before we can ramp down.
+
+config SMARTASS_DEFAULT_UP_MIN_FREQ
+	int "Default up minimum frequency"
+	default CPU_FREQ_MAX_FREQ
+	depends on CPU_FREQ_GOV_SMARTASS
+	help
+	  When ramping up frequency with no idle cycles jump to at least this frequency.
+	  Zero disables. Set a very high value to jump to policy max freqeuncy.
+
+config SMARTASS_DEFAULT_AWAKE_MIN_FREQ
+	int "Default awake minimum frequency"
+  default 200000
+	depends on CPU_FREQ_GOV_SMARTASS
+	help
+	  When awake_min_freq>0 the frequency when not suspended will not
+	  go below this frequency.
+	  Set awake_min_freq=0 to disable this behavior.
+
 config CPU_HUMMINGBIRD_MIN_FREQ
 	int "Samsung S5PC11X (Hummingbird) Min Freq"
 	default 200000
