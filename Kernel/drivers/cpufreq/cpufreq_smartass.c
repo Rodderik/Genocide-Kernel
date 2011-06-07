@@ -226,7 +226,7 @@ static void cpufreq_smartass_timer(unsigned long data)
                 cpu_load = 100 * (unsigned int)(delta_time - delta_idle) / (unsigned int)delta_time;
 
         if (debug_mask & SMARTASS_DEBUG_LOAD)
-                printk(KERN_INFO "smartassT @ %d: load %d (delta_time %llu), load_since_change %d\n",
+                printk(KERN_INFO "SmartassT @ %d: load %d (delta_time %llu), load_since_change %d\n",
                        policy->cur,cpu_load,delta_time,load_since_change);
 
         // Choose greater of short-term load (since last idle timer
