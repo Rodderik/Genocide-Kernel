@@ -14,7 +14,7 @@ echo "error: $1"
 exit
 }
 
-mount -o remount,rw / /
+mount -t rootfs -o remount,rw / /
 
 if [ "$1" = "" ]; then
 timer="`cat /sys/devices/platform/s3c-keypad/timer_delay`"
@@ -34,4 +34,5 @@ fi
 echo $1 > /sys/devices/platform/s3c-keypad/timer_delay
 echo $1 > /data/local/timer_delay
 
-mount -o remount,ro / /
+mount -t rootfs -o remount,ro / /
+

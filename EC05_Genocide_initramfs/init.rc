@@ -5,7 +5,7 @@ sysclktz 0
 loglevel 3
 
 # setup the global environment
-    export PATH /sbin:/system/sbin:/system/bin:/system/xbin
+    export PATH /sbin:/bin:/system/sbin:/system/bin:/system/xbin
     export LD_LIBRARY_PATH /system/lib:/system/lib/egl
     export ANDROID_BOOTLOGO 1
     export ANDROID_ROOT /system
@@ -511,11 +511,17 @@ service console /system/bin/sh
     group shell system log
     console
 
-service playlogos1 /system/bin/playlogos1
-    user root
+#service playlogos1 /system/bin/playlogos1
+#    user root
+#    oneshot
+
+service bootanim /system/bin/bootanimation
+    user graphics
+    group graphics
+    disabled
     oneshot
 
-# Install busybox
+# Run Custom Initialization
 service custom_init /sbin/custom_init.sh
 	user root
 	oneshot
@@ -629,12 +635,6 @@ service killmediaserver /system/bin/killmediaserver
     group system
     oneshot
 #to prevent lockup issue during poweron/off test
-
-service bootanim /system/bin/bootanimation
-    user graphics
-    group graphics
-    disabled
-    oneshot
 
 # to enable wifi
 service wpa_supplicant /system/bin/wpa_supplicant -Dwext -ieth0 -c/data/wifi/bcm_supp.conf

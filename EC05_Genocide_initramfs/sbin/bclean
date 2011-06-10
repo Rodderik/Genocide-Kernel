@@ -1,0 +1,21 @@
+#!/system/bin/sh
+# simplify uninstall of busybox and links
+# written by DRockstar for SDX Developers
+# assumes alternate busybox installation in path
+
+PATH=/sbin:/bin:/system/bin:/system/xbin:/data/local/tmp
+mount -o remount,rw /dev/stl9 /system
+for wdir in /system/bin /system/xbin
+do
+  find $wdir -type l | while read line; do
+    btest=`readlink $line | grep "busybox"`
+    if [ "$btest" != "" ]; then
+      rm $line
+      if [ -f $btest ] && [ "$btest" != "/sbin/busybox" ]; then
+        rm $btest
+      fi
+    fi
+  done
+done
+mount -o remount,ro /dev/stl9 /system
+

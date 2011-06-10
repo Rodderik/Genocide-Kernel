@@ -1,0 +1,34 @@
+#!/system/bin/sh
+# Epic Root Uninstaller by DRockstar
+# Modified for Clean Kernel script
+# assumes alternate busybox install in path
+
+PATH=/sbin:/bin:/system/bin:/system/xbin:/data/local/tmp
+sdir=`dirname $0`
+
+busybox mount -o remount,rw /dev/stl9 /system
+busybox mount -o remount,rw / /
+
+# Remove all busybox installations in /system
+for wdir in /system/bin /system/xbin
+do
+  find $wdir -type l | while read line; do
+    btest=`readlink $line | grep "busybox"`
+    if [ "$btest" != "" ]; then
+      rm $line
+      if [ -f $btest ] && [ "$btest" != "/sbin/busybox" ]; then
+        rm $btest
+      fi
+    fi
+  done
+done
+
+# Remove all root files, as listed in clist file
+cat $sdir/clist | while read line; do
+  busybox rm -rf $line
+done
+
+sleep 3
+
+busybox mount -o remount,ro /dev/block/stl9 /system
+busybox mount -o remount,ro / /

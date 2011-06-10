@@ -84,10 +84,14 @@ on boot
 #service console /system/bin/sh
 #    console
 
+# run custom recovery functions
+service recovery /sbin/recovery.sh
+user root
+oneshot
 
 # adbd is controlled by the persist.service.adb.enable system property
-service adbd /sbin/adbd
-	disabled
+# service adbd /sbin/adbd
+# disabled
 
 on property:persist.service.adb.enable=1
     start adbd
@@ -95,8 +99,7 @@ on property:persist.service.adb.enable=1
 on property:persist.service.adb.enable=0
     stop adbd
 
-service recovery /system/bin/recovery
-	oneshot
+# service recovery /system/bin/recovery
+# oneshot
 
-
-#service adbd /sbin/adbd recovery
+service adbd /sbin/adbd recovery

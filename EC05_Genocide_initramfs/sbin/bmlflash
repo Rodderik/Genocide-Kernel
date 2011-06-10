@@ -1,0 +1,54 @@
+#!/system/bin/sh
+# Simplify flashing kernels and ClockWork Mod
+# for the Samsung Epic 4G
+# written by DRockstar for SDX Developers
+
+PATH=/sbin:/bin:/system/bin:/system/xbin:/data/local/tmp
+
+busybox="`busybox which busybox`"
+chmod 755 $busybox > /dev/null 2>&1
+bmlwrite="`$busybox which bmlwrite`"
+scriptname=`$busybox basename "$0"`
+
+flash()
+{
+chmod 755 $bmlwrite > /dev/null 2>&1
+$bmlwrite $1 $2
+sleep 3
+toolbox reboot
+busybox reboot
+reboot now
+}
+
+usage()
+{
+echo "$scriptname: bmlwrite commandline shortcut"
+echo "usage: $scriptname <zImage> <bml7 | bml8>"
+}
+
+notfound()
+{
+usage
+echo $1: not found
+exit
+}
+
+if $busybox test "$bmlwrite" = ""; then
+notfound bmlwrite
+fi
+
+if $busybox test ! -s $1; then
+notfound $1
+fi
+
+case $2 in
+bml7)
+$busybox rm -rf /data/dalvik-cache
+$busybox rm -rf /cache/*
+flash $1 /dev/block/bml7;;
+bml8)
+flash $1 /dev/block/bml8;;
+*) usage
+esac
+
+
