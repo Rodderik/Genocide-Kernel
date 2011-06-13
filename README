@@ -13,6 +13,11 @@ Changelog Legend: "+" introduce addition/modification, "-" removed addition/modi
 Changelog:
 
 1.1
++ClockworkMod 3.1.0.1 Purple Edition & working redirector (DRockstar https://github.com/DRockstar/Clean-Kernel-EC05/commit/ac713f90ec2a2560bc7fb05225341a4e4772a199)
+*Busybox handled by recovery binary
+*Moved superuser.apk location
+*Swapped redbend_ua for bmlwrite
++Other scripts and tweaks from DRockstar into initramfs
 +interactive governor + fixes
 *ondemand governor fix to not scale below min frequency (nubecoder)
 *Voodoo Sound updated to v9

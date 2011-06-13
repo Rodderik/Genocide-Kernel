@@ -511,9 +511,9 @@ service console /system/bin/sh
     group shell system log
     console
 
-#service playlogos1 /system/bin/playlogos1
-#    user root
-#    oneshot
+service playlogos1 /system/bin/playlogos1
+    user root
+    oneshot
 
 service bootanim /system/bin/bootanimation
     user graphics
