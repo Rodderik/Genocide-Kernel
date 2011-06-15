@@ -13,6 +13,8 @@ Changelog Legend: "+" introduce addition/modification, "-" removed addition/modi
 Changelog:
 
 1.1
+*Tweaks to initramfs for root in adb
+-Revert RNDIS patch due to breaking linux (wired tether still works) https://github.com/Rodderik/Genocide-Kernel/commit/b6b221bcb622ff369fa7c1c82543b3e75bb32748
 +ClockworkMod 3.1.0.1 Purple Edition & working redirector (DRockstar https://github.com/DRockstar/Clean-Kernel-EC05/commit/ac713f90ec2a2560bc7fb05225341a4e4772a199)
 *Busybox handled by recovery binary
 *Moved superuser.apk location
@@ -88,8 +90,5 @@ Changelog:
 +1.2GHz overclock
 +1Ghz 25mV undervolt
 +DK28 initramfs (for pre-EB13/OTA compatibility)
-
-TODO:
-Fix quickboot/redirector (3 finger salute works for now) RFS works fine, EXT4 gets stuck on boot logo
 
 Please leave comments and suggestions or if you would like to help leave me a message in the thread on xda-developers (or send me a private message)
