@@ -296,11 +296,6 @@ static int acm_ums_adb_bind_config(struct usb_configuration *c)
 		printk("[%s] Fail to adb_function_config_changed()\n", __func__);
 		return ret;
 	}
-	ret = rndis_function_config_changed(dev->cdev, c);
-	if (ret) {
-		printk("[%s] Fail to rndis_function_config_changed()\n", __func__);
-		return ret;
-	}
 	return ret;
 }
 
