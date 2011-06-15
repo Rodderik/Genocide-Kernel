@@ -3,7 +3,7 @@ on init
 # GyuTae FIX : we should not use system partition!!!!!
 #	export PATH /sbin:/bin
 
-	export PATH /sbin:/system/bin
+	export PATH /sbin:/bin:/system/bin
 
     export ANDROID_ROOT /system
     export ANDROID_DATA /data

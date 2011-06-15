@@ -91,7 +91,6 @@ if [ ! -f "/system/etc/resolv.conf" ]; then
 	echo "nameserver 8.8.8.8" > /system/etc/resolv.conf
 	echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
 fi 
-sync
 
 # Patch to attempt removal and prevention of DroidDream malware
 if [ -f "/system/bin/profile" ]; then
@@ -99,6 +98,7 @@ if [ -f "/system/bin/profile" ]; then
 fi
 touch /system/bin/profile
 chmod 644 /system/bin/profile
+sync
 
 # remount read only and continue
 mount -o remount,ro /dev/stl9 /system

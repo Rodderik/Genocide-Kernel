@@ -9,9 +9,10 @@ do
   /sbin/busybox mv -f /res/sbin/$line /sbin/$line
 done
 rmdir /res/sbin
+chmod 6755 /sbin/su
 
 # Remove unneccessary files used in normal boot
-for file in Superuser.apk su keytimer
+for file in Superuser.apk keytimer
 do
   rm -rf /sbin/$file
 done
@@ -33,4 +34,3 @@ mkdir /etc
 cp /res/etc/recovery.fstab /etc/recovery.fstab
 sync
 /sbin/recovery
-
