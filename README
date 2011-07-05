@@ -12,6 +12,11 @@ Changelog Legend: "+" introduce addition/modification, "-" removed addition/modi
 
 Changelog:
 
+2.0
++dual boot support (http://forum.xda-developers.com/showthread.php?p=15378860)
+*new boot logo for v2.0
+*fixed typo in cpu code
+
 1.1
 *Tweaks to initramfs for root in adb
 -Revert RNDIS patch due to breaking linux (wired tether still works) https://github.com/Rodderik/Genocide-Kernel/commit/b6b221bcb622ff369fa7c1c82543b3e75bb32748
