@@ -101,6 +101,6 @@ chmod 644 /system/bin/profile
 sync
 
 # remount read only and continue
-mount -o remount,ro /dev/stl9 /system
+mount -o remount,ro /dev/block/stl9 /system
 mount -o remount,ro / /
 
